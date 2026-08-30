@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - CareerNest</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f3ff,
+                    #eef7ff,
+                    #fff2fb
+                );
+        }
+
+        /* ==============================
+           LOGIN CARD
+        ============================== */
+
+        .container {
+            width: 100%;
+            max-width: 460px;
+
+            background: white;
+
+            padding: 42px;
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 20px 55px
+                rgba(55, 65, 120, 0.16);
+
+            animation: appear 0.5s ease;
+        }
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* ==============================
+           LOGO
+        ============================== */
+
+        .logo {
+            text-align: center;
+
+            font-size: 31px;
+
+            font-weight: 800;
+
+            color: #4f46e5;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #71809d;
+
+            margin-bottom: 32px;
+
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           TITLE
+        ============================== */
+
+        h1 {
+            text-align: center;
+
+            color: #293b73;
+
+            font-size: 27px;
+
+            margin-bottom: 8px;
+        }
+
+        .description {
+            text-align: center;
+
+            color: #7a88a4;
+
+            font-size: 14px;
+
+            margin-bottom: 28px;
+        }
+
+
+        /* ==============================
+           FLASH MESSAGE
+        ============================== */
+
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 13px 15px;
+
+            border-radius: 12px;
+
+            background: #fff1f2;
+
+            border:
+                1px solid #fecdd3;
+
+            color: #be123c;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* ==============================
+           FORM
+        ============================== */
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #34456f;
+
+            font-weight: 700;
+
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border:
+                1px solid #dce3f2;
+
+            border-radius: 13px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            background: #fbfcff;
+
+            color: #26345f;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #6366f1;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(99, 102, 241, 0.10);
+        }
+
+
+        /* ==============================
+           LOGIN BUTTON
+        ============================== */
+
+        .login-button {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+            box-shadow:
+                0 9px 22px
+                rgba(65, 70, 180, 0.22);
+
+            transition: 0.2s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 13px 28px
+                rgba(65, 70, 180, 0.28);
+        }
+
+
+        /* ==============================
+           REGISTER
+        ============================== */
+
+        .register {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #71809d;
+
+            font-size: 14px;
+        }
+
+        .register a {
+            color: #4f46e5;
+
+            text-decoration: none;
+
+            font-weight: 700;
+        }
+
+        .register a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ==============================
+           HOME
+        ============================== */
+
+        .home {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #71809d;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .home:hover {
+            color: #4f46e5;
+        }
+
+
+        /* ==============================
+           FEATURES
+        ============================== */
+
+        .features {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 18px;
+
+            margin-top: 28px;
+
+            padding-top: 22px;
+
+            border-top:
+                1px solid #edf0f7;
+
+            color: #7a88a4;
+
+            font-size: 12px;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 19px;
+
+            margin-bottom: 4px;
+        }
+
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media(max-width: 550px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 30px 22px;
+            }
+
+            .logo {
+                font-size: 27px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .features {
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+        🚀 CareerNest
+    </div>
+
+    <p class="subtitle">
+        Smart Jobs • Smarter Careers
+    </p>
+
+
+    <!-- TITLE -->
+
+    <h1>
+        Welcome Back! 👋
+    </h1>
+
+    <p class="description">
+        Login to continue your career journey.
+    </p>
+
+
+    <!-- FLASH MESSAGES -->
+
+    <div class="flash-container">
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="flash">
+                        ⚠️ {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+    </div>
+
+
+    <!-- LOGIN FORM -->
+
+    <form
+        action="/login"
+        method="POST"
+    >
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+            <label for="email">
+                📧 Email Address
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+            <label for="password">
+                🔐 Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+            >
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+            type="submit"
+            class="login-button"
+        >
+            🔑 Login to CareerNest
+        </button>
+
+
+    </form>
+
+
+    <!-- REGISTER -->
+
+    <div class="register">
+
+        Don't have an account?
+
+        <a href="/register">
+            Create Account
+        </a>
+
+    </div>
+
+
+    <!-- HOME -->
+
+    <a
+        href="/"
+        class="home"
+    >
+        ← Back to CareerNest
+    </a>
+
+
+    <!-- FEATURES -->
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🤖
+            </div>
+
+            AI Career Assistant
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                💼
+            </div>
+
+            Smart Jobs
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                📊
+            </div>
+
+            Career Dashboard
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

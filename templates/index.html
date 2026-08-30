@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareerNest - Find Your Dream Job</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f3ff,
+                    #eef7ff,
+                    #fff3fb
+                );
+
+            color: #26345f;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            padding: 18px 7%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #4f46e5,
+                    #2563eb
+                );
+
+            box-shadow:
+                0 5px 25px
+                rgba(50, 60, 150, 0.18);
+
+        }
+
+
+        .logo {
+
+            font-size: 28px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .nav-links a {
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 14px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+
+        }
+
+
+        .nav-links a:hover {
+
+            background:
+                rgba(255,255,255,0.18);
+
+        }
+
+
+        .auth-button {
+
+            background:
+                rgba(255,255,255,0.18);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.25);
+
+        }
+
+
+        .profile-button {
+
+            background: white;
+
+            color: #4f46e5 !important;
+
+        }
+
+
+        .logout-button {
+
+            background:
+                rgba(255,255,255,0.15);
+
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+
+            text-align: center;
+
+            padding:
+                65px 7% 55px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #4f46e5,
+                    #2563eb,
+                    #0891b2
+                );
+
+            border-radius:
+                0 0 40px 40px;
+
+        }
+
+
+        .hero h1 {
+
+            font-size: 46px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .hero p {
+
+            font-size: 18px;
+
+            max-width: 750px;
+
+            margin:
+                0 auto 25px;
+
+            line-height: 1.6;
+
+            opacity: 0.95;
+
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+
+            max-width: 800px;
+
+            margin: auto;
+
+            display: flex;
+
+            gap: 10px;
+
+            background: white;
+
+            padding: 8px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 12px 35px
+                rgba(20,40,100,0.20);
+
+        }
+
+
+        .search-box input {
+
+            flex: 1;
+
+            border: none;
+
+            outline: none;
+
+            padding: 14px;
+
+            font-size: 15px;
+
+            border-radius: 10px;
+
+            color: #26345f;
+
+        }
+
+
+        .search-button {
+
+            border: none;
+
+            padding:
+                0 24px;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+
+            width: 88%;
+
+            max-width: 1400px;
+
+            margin: 35px auto;
+
+        }
+
+
+        /* =========================
+           WELCOME BANNER
+        ========================= */
+
+        .welcome {
+
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 25px;
+
+            margin-bottom: 30px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+            box-shadow:
+                0 10px 30px
+                rgba(50,70,120,0.09);
+
+        }
+
+
+        .welcome h2 {
+
+            color: #304b91;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .welcome p {
+
+            color: #71809d;
+
+        }
+
+
+        .profile-link {
+
+            text-decoration: none;
+
+            padding: 12px 20px;
+
+            border-radius: 12px;
+
+            color: white;
+
+            font-weight: bold;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section-title {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .section-title h2 {
+
+            color: #304b91;
+
+            font-size: 28px;
+
+        }
+
+
+        .count {
+
+            padding:
+                7px 13px;
+
+            border-radius: 20px;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            font-weight: bold;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           JOB GRID
+        ========================= */
+
+        .job-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 22px;
+
+        }
+
+
+        .job-card {
+
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 24px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(50,70,120,0.09);
+
+            transition: 0.25s;
+
+            position: relative;
+
+            border:
+                1px solid #edf0f7;
+
+        }
+
+
+        .job-card:hover {
+
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 17px 35px
+                rgba(50,70,120,0.15);
+
+        }
+
+
+        .job-icon {
+
+            width: 55px;
+
+            height: 55px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 15px;
+
+            font-size: 26px;
+
+            margin-bottom: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eeeaff,
+                    #e8f1ff
+                );
+
+        }
+
+
+        .job-card h3 {
+
+            color: #304b91;
+
+            font-size: 20px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .company {
+
+            color: #6d7a98;
+
+            font-weight: 600;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .job-info {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .tag {
+
+            padding:
+                7px 11px;
+
+            border-radius: 15px;
+
+            background: #f2f5fb;
+
+            color: #61708f;
+
+            font-size: 12px;
+
+        }
+
+
+        .skills {
+
+            color: #657493;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .salary {
+
+            font-weight: bold;
+
+            color: #0e9f6e;
+
+            margin-bottom: 17px;
+
+        }
+
+
+        .card-actions {
+
+            display: flex;
+
+            gap: 9px;
+
+        }
+
+
+        .details {
+
+            flex: 1;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            padding: 11px;
+
+            border-radius: 11px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+            font-weight: bold;
+
+            font-size: 13px;
+
+        }
+
+
+        .save-form {
+
+            width: 46px;
+
+        }
+
+
+        .save-button {
+
+            width: 46px;
+
+            height: 42px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            font-size: 20px;
+
+            background: #f2f4fa;
+
+            transition: 0.2s;
+
+        }
+
+
+        .save-button:hover {
+
+            transform: scale(1.06);
+
+        }
+
+
+        .saved {
+
+            background: #ffe9f0;
+
+        }
+
+
+        /* =========================
+           AI SECTION
+        ========================= */
+
+        .ai-section {
+
+            margin-top: 40px;
+
+            margin-bottom: 35px;
+
+            padding: 35px;
+
+            border-radius: 26px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #4f46e5,
+                    #2563eb,
+                    #0891b2
+                );
+
+            box-shadow:
+                0 15px 35px
+                rgba(76,70,200,0.20);
+
+        }
+
+
+        .ai-section h2 {
+
+            font-size: 28px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .ai-section p {
+
+            max-width: 750px;
+
+            line-height: 1.6;
+
+            opacity: 0.95;
+
+        }
+
+
+        .ai-button {
+
+            display: inline-block;
+
+            margin-top: 18px;
+
+            padding: 13px 22px;
+
+            border-radius: 12px;
+
+            color: #4f46e5;
+
+            background: white;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty {
+
+            text-align: center;
+
+            background: white;
+
+            padding: 55px 25px;
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(50,70,120,0.09);
+
+        }
+
+
+        .empty-icon {
+
+            font-size: 55px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .empty h2 {
+
+            color: #304b91;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .empty p {
+
+            color: #71809d;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 35px;
+
+            margin-top: 30px;
+
+            color: #71809d;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width: 700px) {
+
+            .navbar {
+
+                padding: 15px 5%;
+
+            }
+
+
+            .nav-links {
+
+                width: 100%;
+
+                justify-content: center;
+
+            }
+
+
+            .hero {
+
+                padding:
+                    45px 5%;
+
+            }
+
+
+            .hero h1 {
+
+                font-size: 32px;
+
+            }
+
+
+            .search-box {
+
+                flex-direction: column;
+
+                padding: 10px;
+
+            }
+
+
+            .search-button {
+
+                padding: 13px;
+
+            }
+
+
+            .container {
+
+                width: 92%;
+
+            }
+
+
+            .job-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .ai-section {
+
+                padding: 25px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar">
+
+
+    <div class="logo">
+        🚀 CareerNest
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            🏠 Home
+        </a>
+
+
+        <a href="/dashboard">
+            📊 Dashboard
+        </a>
+
+
+        <a href="/saved_jobs">
+            ❤️ Saved
+        </a>
+
+
+        <a href="/applications">
+            📋 Applications
+        </a>
+
+
+        <a href="/career_assistant">
+            🤖 AI Career
+        </a>
+
+
+        {% if current_user %}
+
+            <a
+                href="/profile"
+                class="profile-button"
+            >
+                👤 {{ current_user.name }}
+            </a>
+
+
+            <a
+                href="/logout"
+                class="logout-button"
+            >
+                🚪 Logout
+            </a>
+
+        {% else %}
+
+            <a
+                href="/login"
+                class="auth-button"
+            >
+                🔑 Login
+            </a>
+
+
+            <a
+                href="/register"
+                class="auth-button"
+            >
+                ✨ Register
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+
+    <h1>
+        Find Your Dream Career 🚀
+    </h1>
+
+
+    <p>
+        Discover opportunities, analyze your resume,
+        match your skills with jobs, and build a smarter
+        career with AI.
+    </p>
+
+
+    <form
+        action="/search"
+        method="GET"
+        class="search-box"
+    >
+
+        <input
+            type="text"
+            name="query"
+            placeholder="Search jobs, companies, skills or locations..."
+            value="{{ search_query or '' }}"
+        >
+
+
+        <button
+            type="submit"
+            class="search-button"
+        >
+            🔎 Search
+        </button>
+
+    </form>
+
+</section>
+
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     LOGGED-IN WELCOME
+====================================================== -->
+
+{% if current_user %}
+
+    <div class="welcome">
+
+        <div>
+
+            <h2>
+                Welcome back, {{ current_user.name }}! 👋
+            </h2>
+
+            <p>
+                Continue building your career with CareerNest.
+            </p>
+
+        </div>
+
+
+        <a
+            href="/profile"
+            class="profile-link"
+        >
+            👤 My Profile
+        </a>
+
+    </div>
+
+{% endif %}
+
+
+
+<!-- =====================================================
+     AI CAREER SECTION
+====================================================== -->
+
+<div class="ai-section">
+
+    <h2>
+        🤖 Your AI Career Assistant
+    </h2>
+
+    <p>
+        Get personalized career recommendations,
+        discover your strongest career paths, identify
+        missing skills, and receive a learning roadmap
+        based on your resume.
+    </p>
+
+
+    <a
+        href="/career_assistant"
+        class="ai-button"
+    >
+        ✨ Explore My Career
+    </a>
+
+</div>
+
+
+
+<!-- =====================================================
+     JOB SECTION
+====================================================== -->
+
+<div class="section-title">
+
+
+    <h2>
+        💼 Latest Opportunities
+    </h2>
+
+
+    <span class="count">
+
+        {{ jobs|length }} Jobs
+
+    </span>
+
+
+</div>
+
+
+
+{% if jobs %}
+
+
+    <div class="job-grid">
+
+
+        {% for job in jobs %}
+
+
+            <div class="job-card">
+
+
+                <div class="job-icon">
+                    💼
+                </div>
+
+
+                <h3>
+                    {{ job.title }}
+                </h3>
+
+
+                <div class="company">
+                    🏢 {{ job.company }}
+                </div>
+
+
+                <div class="job-info">
+
+
+                    {% if job.location %}
+
+                        <span class="tag">
+                            📍 {{ job.location }}
+                        </span>
+
+                    {% endif %}
+
+
+                    {% if job.type %}
+
+                        <span class="tag">
+                            💼 {{ job.type }}
+                        </span>
+
+                    {% endif %}
+
+
+                    {% if job.mode %}
+
+                        <span class="tag">
+                            🌐 {{ job.mode }}
+                        </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                {% if job.skills %}
+
+                    <div class="skills">
+
+                        🧠
+                        <strong>
+                            Skills:
+                        </strong>
+
+                        {{ job.skills }}
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if job.salary %}
+
+                    <div class="salary">
+
+                        💰 {{ job.salary }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="card-actions">
+
+
+                    <a
+                        href="/job/{{ job.id }}"
+                        class="details"
+                    >
+                        View Details →
+                    </a>
+
+
+                    <form
+                        action="/save_job/{{ job.id }}"
+                        method="POST"
+                        class="save-form"
+                    >
+
+                        {% if saved_jobs and job.id in saved_jobs %}
+
+                            <button
+                                type="submit"
+                                class="save-button saved"
+                                title="Remove from saved jobs"
+                            >
+                                ❤️
+                            </button>
+
+                        {% else %}
+
+                            <button
+                                type="submit"
+                                class="save-button"
+                                title="Save job"
+                            >
+                                🤍
+                            </button>
+
+                        {% endif %}
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+{% else %}
+
+
+    <div class="empty">
+
+        <div class="empty-icon">
+            🔍
+        </div>
+
+        <h2>
+            No Jobs Found
+        </h2>
+
+        <p>
+            Try searching for another job title,
+            company, skill or location.
+        </p>
+
+    </div>
+
+
+{% endif %}
+
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    🚀 <strong>CareerNest</strong>
+
+    <br><br>
+
+    Smart Jobs • AI-Powered Career Guidance •
+    Smarter Careers 🤖
+
+</footer>
+
+
+</body>
+
+</html>

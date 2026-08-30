@@ -1,0 +1,1639 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+
+    margin: 0;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #eef7ff,
+            #fff5f8
+        );
+
+    color:
+        #29283d;
+
+    transition:
+        0.3s;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header {
+
+    background:
+        linear-gradient(
+            135deg,
+            #6c5ce7,
+            #8e44ad,
+            #3498db
+        );
+
+    color:
+        white;
+
+    padding:
+        30px 8% 55px;
+
+    border-bottom-left-radius:
+        45px;
+
+    border-bottom-right-radius:
+        45px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(108,92,231,0.25);
+
+}
+
+
+.top-bar {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+}
+
+
+header h1 {
+
+    font-size:
+        32px;
+
+    margin:
+        0;
+
+}
+
+
+header h2 {
+
+    font-size:
+        38px;
+
+    margin-bottom:
+        10px;
+
+}
+
+
+header p {
+
+    font-size:
+        18px;
+
+}
+
+
+.header-actions {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+}
+
+
+.dashboard-link {
+
+    text-decoration:
+        none;
+
+    color:
+        #6c5ce7;
+
+    background:
+        white;
+
+    padding:
+        11px 16px;
+
+    border-radius:
+        10px;
+
+    font-weight:
+        700;
+
+}
+
+
+.dark-btn {
+
+    border:
+        none;
+
+    border-radius:
+        50%;
+
+    padding:
+        12px;
+
+    cursor:
+        pointer;
+
+    background:
+        white;
+
+    font-size:
+        18px;
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search-section {
+
+    width:
+        85%;
+
+    max-width:
+        950px;
+
+    margin:
+        -35px auto 25px;
+
+    background:
+        white;
+
+    padding:
+        22px;
+
+    border-radius:
+        20px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,0.12);
+
+}
+
+
+.search-section form {
+
+    display:
+        flex;
+
+    gap:
+        12px;
+
+}
+
+
+.search-section input {
+
+    flex:
+        1;
+
+    padding:
+        16px 20px;
+
+    border:
+        2px solid #eee;
+
+    border-radius:
+        12px;
+
+    font-size:
+        16px;
+
+    outline:
+        none;
+
+}
+
+
+.search-section input:focus {
+
+    border-color:
+        #6c5ce7;
+
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+button {
+
+    border:
+        none;
+
+    padding:
+        13px 22px;
+
+    border-radius:
+        10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6c5ce7,
+            #8e44ad
+        );
+
+    color:
+        white;
+
+    font-size:
+        15px;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+    transition:
+        0.2s;
+
+}
+
+
+button:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 8px 18px
+        rgba(108,92,231,0.3);
+
+}
+
+
+/* =====================================================
+   RESUME
+===================================================== */
+
+.resume-section {
+
+    width:
+        85%;
+
+    max-width:
+        1050px;
+
+    margin:
+        30px auto;
+
+    padding:
+        30px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f4f0ff
+        );
+
+    border-radius:
+        22px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(70,60,110,0.12);
+
+    border:
+        2px dashed #8e7cf7;
+
+}
+
+
+.resume-icon {
+
+    font-size:
+        60px;
+
+    min-width:
+        90px;
+
+    height:
+        90px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        #eeeaff;
+
+    border-radius:
+        20px;
+
+}
+
+
+.resume-content {
+
+    flex:
+        1;
+
+}
+
+
+.resume-content h2 {
+
+    margin-top:
+        0;
+
+    color:
+        #5b4bc4;
+
+}
+
+
+.resume-content p {
+
+    color:
+        #666;
+
+    line-height:
+        1.6;
+
+}
+
+
+.resume-content form {
+
+    display:
+        flex;
+
+    gap:
+        12px;
+
+    align-items:
+        center;
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.resume-content input[type="file"] {
+
+    padding:
+        12px;
+
+    border:
+        1px solid #ddd;
+
+    border-radius:
+        10px;
+
+    background:
+        white;
+
+}
+
+
+.resume-content button {
+
+    background:
+        linear-gradient(
+            135deg,
+            #00b894,
+            #00cec9
+        );
+
+}
+
+
+.resume-content small {
+
+    display:
+        block;
+
+    margin-top:
+        10px;
+
+    color:
+        #888;
+
+}
+
+
+/* =====================================================
+   FILTERS
+===================================================== */
+
+.filters {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        12px;
+
+    margin:
+        25px auto;
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.filters select,
+.filters button {
+
+    padding:
+        12px 18px;
+
+    border:
+        none;
+
+    border-radius:
+        10px;
+
+    background:
+        white;
+
+    box-shadow:
+        0 4px 12px
+        rgba(0,0,0,0.08);
+
+    cursor:
+        pointer;
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+.stats {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        15px;
+
+    margin:
+        25px auto;
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.stats div {
+
+    background:
+        white;
+
+    padding:
+        20px 30px;
+
+    border-radius:
+        15px;
+
+    text-align:
+        center;
+
+    box-shadow:
+        0 5px 18px
+        rgba(0,0,0,0.08);
+
+}
+
+
+.stats span {
+
+    display:
+        block;
+
+    font-size:
+        25px;
+
+    font-weight:
+        bold;
+
+    color:
+        #6c5ce7;
+
+}
+
+
+.stats small {
+
+    display:
+        block;
+
+    margin-top:
+        5px;
+
+}
+
+
+/* =====================================================
+   SAVED JOBS
+===================================================== */
+
+.saved-section {
+
+    width:
+        85%;
+
+    max-width:
+        1050px;
+
+    margin:
+        30px auto;
+
+    background:
+        white;
+
+    padding:
+        25px;
+
+    border-radius:
+        20px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(70,60,110,0.10);
+
+}
+
+
+.saved-header {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    margin-bottom:
+        20px;
+
+}
+
+
+.saved-header h2 {
+
+    margin:
+        0;
+
+    color:
+        #d63384;
+
+}
+
+
+.saved-header span {
+
+    background:
+        #ffe8f1;
+
+    color:
+        #c22570;
+
+    padding:
+        7px 14px;
+
+    border-radius:
+        20px;
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+
+}
+
+
+.saved-job-card {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        20px;
+
+    padding:
+        18px;
+
+    margin-bottom:
+        12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7fb,
+            #f7f4ff
+        );
+
+    border-radius:
+        14px;
+
+    border-left:
+        5px solid #d63384;
+
+}
+
+
+.saved-job-card h3 {
+
+    margin:
+        0 0 7px;
+
+    color:
+        #5b4bc4;
+
+}
+
+
+.saved-job-card p {
+
+    margin:
+        5px 0;
+
+    color:
+        #666;
+
+    font-size:
+        14px;
+
+}
+
+
+.saved-actions {
+
+    display:
+        flex;
+
+    gap:
+        8px;
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.remove-save {
+
+    background:
+        #ffe8e8;
+
+    color:
+        #c0392b;
+
+}
+
+
+/* =====================================================
+   APPLICATION SECTION
+===================================================== */
+
+.application-section {
+
+    width:
+        85%;
+
+    max-width:
+        1050px;
+
+    margin:
+        30px auto;
+
+    background:
+        white;
+
+    padding:
+        25px;
+
+    border-radius:
+        20px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(70,60,110,0.10);
+
+}
+
+
+.application-header {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        20px;
+
+    margin-bottom:
+        20px;
+
+}
+
+
+.application-header h2 {
+
+    margin:
+        0;
+
+    color:
+        #5b4bc4;
+
+}
+
+
+.application-header p {
+
+    color:
+        #777;
+
+}
+
+
+.view-dashboard-btn {
+
+    text-decoration:
+        none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6c5ce7,
+            #8e44ad
+        );
+
+    color:
+        white;
+
+    padding:
+        12px 18px;
+
+    border-radius:
+        10px;
+
+    font-weight:
+        600;
+
+}
+
+
+.application-card {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        20px;
+
+    padding:
+        18px;
+
+    margin-bottom:
+        12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7fb,
+            #f7f4ff
+        );
+
+    border-radius:
+        15px;
+
+    border-left:
+        5px solid #d63384;
+
+}
+
+
+.application-info h3 {
+
+    margin:
+        0 0 7px;
+
+    color:
+        #5b4bc4;
+
+}
+
+
+.application-info p {
+
+    margin:
+        5px 0;
+
+    color:
+        #666;
+
+}
+
+
+.application-status {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+}
+
+
+.application-status label {
+
+    color:
+        #777;
+
+    font-size:
+        13px;
+
+}
+
+
+.application-status select {
+
+    padding:
+        10px;
+
+    border:
+        1px solid #ddd;
+
+    border-radius:
+        10px;
+
+    background:
+        white;
+
+    cursor:
+        pointer;
+
+}
+
+
+.delete-application {
+
+    padding:
+        9px 12px;
+
+    background:
+        #ffe8e8;
+
+    color:
+        #c0392b;
+
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+main {
+
+    width:
+        85%;
+
+    max-width:
+        1050px;
+
+    margin:
+        40px auto;
+
+}
+
+
+main > h2 {
+
+    text-align:
+        center;
+
+    font-size:
+        28px;
+
+    margin-bottom:
+        30px;
+
+}
+
+
+/* =====================================================
+   JOB CARD
+===================================================== */
+
+.job-card {
+
+    position:
+        relative;
+
+    background:
+        white;
+
+    padding:
+        28px;
+
+    margin-bottom:
+        22px;
+
+    border-radius:
+        20px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(70,60,110,0.10);
+
+    transition:
+        0.3s;
+
+    overflow:
+        hidden;
+
+}
+
+
+.job-card:hover {
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(70,60,110,0.18);
+
+}
+
+
+.job-card::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    top:
+        0;
+
+    width:
+        6px;
+
+    height:
+        100%;
+
+    background:
+        linear-gradient(
+            #6c5ce7,
+            #3498db
+        );
+
+}
+
+
+.job-card h3 {
+
+    color:
+        #5b4bc4;
+
+    font-size:
+        23px;
+
+    margin-bottom:
+        8px;
+
+    padding-right:
+        60px;
+
+}
+
+
+.job-card h4 {
+
+    color:
+        #666;
+
+    margin-top:
+        0;
+
+}
+
+
+.job-card p {
+
+    color:
+        #606174;
+
+    line-height:
+        1.5;
+
+}
+
+
+/* =====================================================
+   HEART
+===================================================== */
+
+.save-btn {
+
+    position:
+        absolute;
+
+    right:
+        20px;
+
+    top:
+        20px;
+
+    z-index:
+        20;
+
+    width:
+        46px;
+
+    height:
+        46px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        0;
+
+    border:
+        2px solid #eee;
+
+    border-radius:
+        50%;
+
+    background:
+        white;
+
+    color:
+        #6c5ce7;
+
+    font-size:
+        25px;
+
+    line-height:
+        1;
+
+    cursor:
+        pointer;
+
+}
+
+
+.save-btn:hover {
+
+    transform:
+        scale(1.1);
+
+}
+
+
+.save-btn.saved {
+
+    background:
+        #ffe8f1;
+
+    color:
+        #d63384;
+
+    border-color:
+        #ffc5dc;
+
+}
+
+
+/* =====================================================
+   FEATURED
+===================================================== */
+
+.featured {
+
+    display:
+        inline-block;
+
+    background:
+        #fff1b8;
+
+    color:
+        #8a6500;
+
+    padding:
+        6px 12px;
+
+    border-radius:
+        20px;
+
+    font-size:
+        12px;
+
+    font-weight:
+        bold;
+
+    margin-bottom:
+        10px;
+
+}
+
+
+/* =====================================================
+   TAGS
+===================================================== */
+
+.tags {
+
+    display:
+        flex;
+
+    gap:
+        8px;
+
+    flex-wrap:
+        wrap;
+
+    margin:
+        15px 0;
+
+}
+
+
+.tags span {
+
+    background:
+        #f1efff;
+
+    color:
+        #5b4bc4;
+
+    padding:
+        7px 12px;
+
+    border-radius:
+        20px;
+
+    font-size:
+        13px;
+
+}
+
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.actions {
+
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    margin-top:
+        20px;
+
+}
+
+
+.actions button {
+
+    flex:
+        1;
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+
+    display:
+        none;
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    background:
+        rgba(0,0,0,0.55);
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    z-index:
+        100;
+
+}
+
+
+.modal-content {
+
+    background:
+        white;
+
+    padding:
+        35px;
+
+    border-radius:
+        20px;
+
+    width:
+        90%;
+
+    max-width:
+        500px;
+
+    text-align:
+        center;
+
+}
+
+
+.close {
+
+    float:
+        right;
+
+    font-size:
+        28px;
+
+    cursor:
+        pointer;
+
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty-saved {
+
+    text-align:
+        center;
+
+    padding:
+        20px;
+
+    color:
+        #888;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    text-align:
+        center;
+
+    padding:
+        25px;
+
+    background:
+        #29283d;
+
+    color:
+        white;
+
+    margin-top:
+        50px;
+
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+body.dark {
+
+    background:
+        #171725;
+
+    color:
+        white;
+
+}
+
+
+body.dark .job-card,
+body.dark .search-section,
+body.dark .stats div,
+body.dark .saved-section,
+body.dark .application-section,
+body.dark .filters select,
+body.dark .filters button {
+
+    background:
+        #252538;
+
+    color:
+        white;
+
+}
+
+
+body.dark .job-card p,
+body.dark .job-card h4,
+body.dark .saved-job-card p,
+body.dark .application-info p {
+
+    color:
+        #ccc;
+
+}
+
+
+body.dark .resume-section {
+
+    background:
+        #252538;
+
+}
+
+
+body.dark .resume-content p {
+
+    color:
+        #ccc;
+
+}
+
+
+body.dark .saved-job-card,
+body.dark .application-card {
+
+    background:
+        #303047;
+
+}
+
+
+body.dark .modal-content {
+
+    background:
+        #252538;
+
+}
+
+
+body.dark .save-btn {
+
+    background:
+        #303047;
+
+    border-color:
+        #444;
+
+}
+
+
+body.dark .save-btn.saved {
+
+    background:
+        #432c3b;
+
+    color:
+        #ff9bc5;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .top-bar {
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            15px;
+
+    }
+
+
+    .header-actions {
+
+        width:
+            100%;
+
+    }
+
+
+    .dashboard-link {
+
+        flex:
+            1;
+
+        text-align:
+            center;
+
+    }
+
+
+    .search-section,
+    .resume-section,
+    .saved-section,
+    .application-section,
+    main {
+
+        width:
+            92%;
+
+    }
+
+
+    .search-section form {
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .resume-section {
+
+        flex-direction:
+            column;
+
+        text-align:
+            center;
+
+    }
+
+
+    .application-header {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+    }
+
+
+    .view-dashboard-btn {
+
+        text-align:
+            center;
+
+    }
+
+
+    .application-card,
+    .saved-job-card {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+    }
+
+
+    .application-status {
+
+        flex-wrap:
+            wrap;
+
+    }
+
+
+    .application-status select {
+
+        flex:
+            1;
+
+    }
+
+
+    .saved-actions {
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .saved-actions button {
+
+        width:
+            100%;
+
+    }
+
+
+    .actions {
+
+        flex-direction:
+            column;
+
+    }
+
+}

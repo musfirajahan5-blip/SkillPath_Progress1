@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Apply - CareerNest</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f3ff, #eaf4ff);
+            color: #26345f;
+        }
+
+        .header {
+            background: linear-gradient(
+                135deg,
+                #7048e8,
+                #2563eb
+            );
+            color: white;
+            padding: 35px 8%;
+        }
+
+        .container {
+            width: 70%;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(50, 70, 120, 0.12);
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border: 1px solid #dce3f5;
+            border-radius: 12px;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        input[type="file"] {
+            background: #f7f9ff;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(
+                135deg,
+                #7048e8,
+                #2563eb
+            );
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .job {
+            background: #eef3ff;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h1>🚀 Apply for Job</h1>
+
+        <p>CareerNest Application Portal</p>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="job">
+
+                <h2>{{ job.title }}</h2>
+
+                <p>🏢 {{ job.company }}</p>
+
+                <p>📍 {{ job.location }}</p>
+
+                <p>💰 {{ job.salary }}</p>
+
+            </div>
+
+
+            <form method="POST"
+                  enctype="multipart/form-data"
+                  action="{{ url_for('submit_application', job_id=job.id) }}">
+
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                    required
+                >
+
+
+                <label>
+                    Upload Resume
+                </label>
+
+                <input
+                    type="file"
+                    name="resume"
+                    accept=".pdf"
+                    required
+                >
+
+
+                <label>
+                    Cover Letter
+                </label>
+
+                <textarea
+                    name="cover_letter"
+                    placeholder="Write a short cover letter..."
+                ></textarea>
+
+
+                <button type="submit">
+
+                    🚀 Submit Application
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

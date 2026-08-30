@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Applications - CareerNest</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7ff;
+            color: #26345f;
+        }
+
+        header {
+            background: linear-gradient(
+                135deg,
+                #7048e8,
+                #2563eb
+            );
+            color: white;
+            padding: 35px 8%;
+        }
+
+        .container {
+            width: 82%;
+            margin: 35px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(50,70,120,.1);
+        }
+
+        .status {
+            display: inline-block;
+            background: #dff8e9;
+            color: #16834a;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>📋 My Applications</h1>
+
+    <p>Track your job applications</p>
+
+</header>
+
+
+<div class="container">
+
+    {% if applications %}
+
+        {% for application in applications %}
+
+            <div class="card">
+
+                <h2>
+                    {{ application.job_title }}
+                </h2>
+
+                <h3>
+                    🏢 {{ application.company }}
+                </h3>
+
+                <p>
+                    👤 {{ application.name }}
+                </p>
+
+                <p>
+                    📧 {{ application.email }}
+                </p>
+
+                <span class="status">
+
+                    {{ application.status }}
+
+                </span>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="card">
+
+            <h2>
+                📭 No applications yet
+            </h2>
+
+            <p>
+                Start applying for jobs to see them here.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

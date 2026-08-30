@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        CareerNest - Resume Analysis
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="top-bar">
+
+        <h1>
+            🚀 CareerNest
+        </h1>
+
+        <a href="/">
+            <button>
+                🏠 Home
+            </button>
+        </a>
+
+    </div>
+
+
+    <h2>
+        🤖 AI Resume Analysis
+    </h2>
+
+
+    <p>
+        Your resume has been analyzed successfully!
+    </p>
+
+</header>
+
+
+<main>
+
+
+    <!-- ================= SKILLS ================= -->
+
+    <section class="analysis-section">
+
+        <h2>
+            🧠 Skills Detected
+        </h2>
+
+
+        {% if detected_skills %}
+
+        <div class="skill-container">
+
+            {% for skill in detected_skills %}
+
+            <span class="skill-tag">
+                ✓ {{ skill }}
+            </span>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% else %}
+
+        <p>
+            😕 No recognized skills were found.
+        </p>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- ================= RECOMMENDATIONS ================= -->
+
+    <section class="analysis-section">
+
+        <h2>
+            🎯 Recommended Jobs
+        </h2>
+
+
+        <p class="section-description">
+
+            Jobs are ranked according to how closely
+            they match your detected skills.
+
+        </p>
+
+
+        {% for job in recommendations %}
+
+        <div class="recommendation-card">
+
+
+            <div class="recommendation-info">
+
+                <h3>
+                    {{ job.title }}
+                </h3>
+
+
+                <h4>
+                    🏢 {{ job.company }}
+                </h4>
+
+
+                <p>
+
+                    📍 {{ job.location }}
+
+                    &nbsp; | &nbsp;
+
+                    💼 {{ job.type }}
+
+                    &nbsp; | &nbsp;
+
+                    🏠 {{ job.mode }}
+
+                </p>
+
+
+                <p>
+                    💰 {{ job.salary }}
+                </p>
+
+
+                <p>
+                    🛠️ {{ job.skills }}
+                </p>
+
+
+                <div class="match-details">
+
+
+                    {% if job.matched_skills %}
+
+                    <p class="matching-skills">
+
+                        ✅
+                        <strong>
+                            Matching Skills:
+                        </strong>
+
+                        {{ job.matched_skills | join(", ") }}
+
+                    </p>
+
+                    {% endif %}
+
+
+                    {% if job.missing_skills %}
+
+                    <p class="missing-skills">
+
+                        ❌
+                        <strong>
+                            Missing Skills:
+                        </strong>
+
+                        {{ job.missing_skills | join(", ") }}
+
+                    </p>
+
+
+                    <div class="skill-gap-box">
+
+                        <h4>
+                            💡 Skill Gap Suggestion
+                        </h4>
+
+                        <p>
+
+                            Learn
+
+                            <strong>
+                                {{ job.missing_skills | join(", ") }}
+                            </strong>
+
+                            to improve your match
+                            for this role.
+
+                        </p>
+
+                    </div>
+
+
+                    {% else %}
+
+                    <div class="perfect-match-box">
+
+                        🎉 You have all the skills
+                        required for this job!
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+            <div class="match-score">
+
+                <div class="percentage">
+                    {{ job.match }}%
+                </div>
+
+                <span>
+                    Match
+                </span>
+
+            </div>
+
+
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+
+    <!-- ================= RESUME TEXT ================= -->
+
+    <section class="analysis-section">
+
+        <details>
+
+            <summary>
+                📄 View Extracted Resume Text
+            </summary>
+
+
+            <pre class="resume-text">
+{{ resume_text }}
+            </pre>
+
+        </details>
+
+    </section>
+
+
+    <div class="back-home">
+
+        <a href="/dashboard">
+
+            <button>
+                📊 View My Dashboard
+            </button>
+
+        </a>
+
+
+        <a href="/">
+
+            <button>
+                🔍 Search More Jobs
+            </button>
+
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 CareerNest |
+        AI-Powered Job Search Platform 🤖
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   SAVE RESUME ANALYSIS FOR DASHBOARD
+===================================================== */
+
+const resumeAnalysis = {
+
+    skills:
+        {{ detected_skills | tojson }},
+
+    recommendations:
+        {{ recommendations | tojson }}
+
+};
+
+
+localStorage.setItem(
+    "resumeAnalysis",
+    JSON.stringify(
+        resumeAnalysis
+    )
+);
+
+</script>
+
+
+</body>
+
+</html>

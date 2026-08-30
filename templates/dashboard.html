@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Career Dashboard - CareerNest</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f3ff 0%,
+                    #eef6ff 50%,
+                    #fdf2ff 100%
+                );
+
+            min-height: 100vh;
+
+            color: #24345f;
+
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+            color: white;
+
+            padding: 18px 6%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 15px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(60, 60, 130, 0.18);
+
+        }
+
+        .logo {
+
+            font-size: 26px;
+
+            font-weight: bold;
+
+        }
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+        }
+
+        .nav-links a {
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 15px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+
+        }
+
+        .nav-links a:hover {
+
+            background:
+                rgba(255,255,255,0.18);
+
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+
+            padding: 45px 7%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #4f46e5,
+                    #2563eb,
+                    #0ea5e9
+                );
+
+            color: white;
+
+            border-radius:
+                0 0 35px 35px;
+
+        }
+
+        .hero h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 10px;
+
+        }
+
+        .hero p {
+
+            font-size: 18px;
+
+            opacity: 0.95;
+
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+
+            width: 86%;
+
+            max-width: 1400px;
+
+            margin: 35px auto;
+
+        }
+
+
+        /* =========================
+           STAT CARDS
+        ========================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(210px, 1fr)
+                );
+
+            gap: 22px;
+
+            margin-bottom: 30px;
+
+        }
+
+        .stat-card {
+
+            background: white;
+
+            padding: 28px 20px;
+
+            border-radius: 22px;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 30px
+                rgba(50,70,120,0.10);
+
+            transition: 0.25s;
+
+        }
+
+        .stat-card:hover {
+
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(50,70,120,0.16);
+
+        }
+
+        .stat-icon {
+
+            font-size: 35px;
+
+            margin-bottom: 8px;
+
+        }
+
+        .stat-number {
+
+            font-size: 32px;
+
+            font-weight: bold;
+
+            color: #3154a4;
+
+        }
+
+        .stat-title {
+
+            color: #6b7899;
+
+            margin-top: 6px;
+
+            font-size: 15px;
+
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(50,70,120,0.09);
+
+        }
+
+        .section-title {
+
+            font-size: 25px;
+
+            color: #304b91;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        /* =========================
+           APPLICATION PROGRESS
+        ========================= */
+
+        .progress-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(150px, 1fr)
+                );
+
+            gap: 20px;
+
+        }
+
+        .progress-card {
+
+            padding: 25px 15px;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8f9ff,
+                    #eef4ff
+                );
+
+            border-radius: 18px;
+
+            border:
+                1px solid #e1e7f5;
+
+        }
+
+        .progress-number {
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #3154a4;
+
+        }
+
+        .progress-label {
+
+            margin-top: 8px;
+
+            color: #687799;
+
+        }
+
+
+        /* =========================
+           SKILLS
+        ========================= */
+
+        .skills {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+        }
+
+        .skill {
+
+            padding:
+                10px 17px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f5f0ff
+                );
+
+            color: #4059a6;
+
+            font-weight: bold;
+
+            border:
+                1px solid #dce4ff;
+
+        }
+
+
+        /* =========================
+           QUICK ACTIONS
+        ========================= */
+
+        .actions {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(200px, 1fr)
+                );
+
+            gap: 18px;
+
+        }
+
+        .action {
+
+            text-decoration: none;
+
+            color: white;
+
+            padding: 22px;
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            font-size: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+            box-shadow:
+                0 8px 20px
+                rgba(65,70,180,0.18);
+
+            transition: 0.25s;
+
+        }
+
+        .action:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(65,70,180,0.25);
+
+        }
+
+
+        /* =========================
+           AI CAREER ASSISTANT
+        ========================= */
+
+        .ai-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 35px;
+
+            border-radius: 25px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #4f46e5,
+                    #2563eb,
+                    #0891b2
+                );
+
+            box-shadow:
+                0 15px 35px
+                rgba(76,70,200,0.25);
+
+            margin-bottom: 25px;
+
+        }
+
+        .ai-card::after {
+
+            content: "✦";
+
+            position: absolute;
+
+            right: 35px;
+
+            top: 15px;
+
+            font-size: 80px;
+
+            opacity: 0.12;
+
+        }
+
+        .ai-card h2 {
+
+            font-size: 28px;
+
+            margin-bottom: 10px;
+
+        }
+
+        .ai-card p {
+
+            max-width: 700px;
+
+            line-height: 1.6;
+
+            opacity: 0.95;
+
+        }
+
+        .ai-button {
+
+            display: inline-block;
+
+            margin-top: 20px;
+
+            padding: 13px 22px;
+
+            border-radius: 12px;
+
+            background: white;
+
+            color: #4f46e5;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+
+        }
+
+        .ai-button:hover {
+
+            transform:
+                translateY(-3px);
+
+        }
+
+
+        /* =========================
+           APPLICATION LIST
+        ========================= */
+
+        .application {
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background: #f8faff;
+
+            border:
+                1px solid #e4e9f5;
+
+            margin-bottom: 12px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+        }
+
+        .application h3 {
+
+            color: #304b91;
+
+            margin-bottom: 5px;
+
+        }
+
+        .application p {
+
+            color: #71809d;
+
+        }
+
+        .status {
+
+            padding:
+                8px 15px;
+
+            border-radius: 20px;
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty {
+
+            color: #7b879f;
+
+            padding: 10px 0;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #71809d;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width:700px) {
+
+            .hero h1 {
+
+                font-size: 30px;
+
+            }
+
+            .hero {
+
+                padding: 35px 6%;
+
+            }
+
+            .container {
+
+                width: 92%;
+
+            }
+
+            .section {
+
+                padding: 22px;
+
+            }
+
+            .navbar {
+
+                padding: 15px 5%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🚀 CareerNest
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">
+            🏠 Home
+        </a>
+
+        <a href="/saved_jobs">
+            ❤️ Saved Jobs
+        </a>
+
+        <a href="/applications">
+            📋 Applications
+        </a>
+
+        <a href="/career_assistant">
+            🤖 AI Career Assistant
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+    <h1>
+        📊 Career Dashboard
+    </h1>
+
+    <p>
+        Your personalized career overview in one place.
+    </p>
+
+</section>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     STATISTICS
+====================================================== -->
+
+<div class="stats">
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            💼
+        </div>
+
+        <div class="stat-number">
+            {{ jobs_count }}
+        </div>
+
+        <div class="stat-title">
+            Jobs Available
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            ❤️
+        </div>
+
+        <div class="stat-number">
+            {{ saved_count }}
+        </div>
+
+        <div class="stat-title">
+            Saved Jobs
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            📋
+        </div>
+
+        <div class="stat-number">
+            {{ applications_count }}
+        </div>
+
+        <div class="stat-title">
+            Applications
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🧠
+        </div>
+
+        <div class="stat-number">
+            {{ skills_count }}
+        </div>
+
+        <div class="stat-title">
+            Skills Detected
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- =====================================================
+     AI CAREER ASSISTANT
+====================================================== -->
+
+<div class="ai-card">
+
+    <h2>
+        🤖 AI Career Assistant
+    </h2>
+
+    <p>
+        Get personalized career recommendations based on
+        your resume skills. Discover suitable career paths,
+        identify skill gaps, and receive a learning roadmap.
+    </p>
+
+    <a
+        href="/career_assistant"
+        class="ai-button"
+    >
+        ✨ Explore My Career
+    </a>
+
+</div>
+
+
+<!-- =====================================================
+     APPLICATION PROGRESS
+====================================================== -->
+
+<div class="section">
+
+    <h2 class="section-title">
+        📈 Application Progress
+    </h2>
+
+
+    <div class="progress-grid">
+
+
+        <div class="progress-card">
+
+            <div class="progress-number">
+                {{ applied_count }}
+            </div>
+
+            <div class="progress-label">
+                📩 Applied
+            </div>
+
+        </div>
+
+
+        <div class="progress-card">
+
+            <div class="progress-number">
+                {{ interview_count }}
+            </div>
+
+            <div class="progress-label">
+                🔑 Interviews
+            </div>
+
+        </div>
+
+
+        <div class="progress-card">
+
+            <div class="progress-number">
+                {{ selected_count }}
+            </div>
+
+            <div class="progress-label">
+                🎉 Selected
+            </div>
+
+        </div>
+
+
+        <div class="progress-card">
+
+            <div class="progress-number">
+                {{ rejected_count }}
+            </div>
+
+            <div class="progress-label">
+                ❌ Rejected
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     YOUR SKILLS
+====================================================== -->
+
+<div class="section">
+
+    <h2 class="section-title">
+        🧠 Your Skills
+    </h2>
+
+
+    {% if detected_skills %}
+
+        <div class="skills">
+
+            {% for skill in detected_skills %}
+
+                <span class="skill">
+                    ✓ {{ skill }}
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p class="empty">
+
+            No skills detected yet.
+
+            Upload your resume to analyze your skills.
+
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =====================================================
+     QUICK ACTIONS
+====================================================== -->
+
+<div class="section">
+
+    <h2 class="section-title">
+        ⚡ Quick Actions
+    </h2>
+
+
+    <div class="actions">
+
+
+        <a
+            href="/"
+            class="action"
+        >
+            🔎 Explore Jobs
+        </a>
+
+
+        <a
+            href="/saved_jobs"
+            class="action"
+        >
+            ❤️ Saved Jobs
+        </a>
+
+
+        <a
+            href="/applications"
+            class="action"
+        >
+            📋 My Applications
+        </a>
+
+
+        <a
+            href="/career_assistant"
+            class="action"
+        >
+            🤖 AI Career Assistant
+        </a>
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     RECENT APPLICATIONS
+====================================================== -->
+
+<div class="section">
+
+    <h2 class="section-title">
+        📋 Recent Applications
+    </h2>
+
+
+    {% if applications %}
+
+
+        {% for application in applications|reverse %}
+
+            {% if loop.index <= 5 %}
+
+                <div class="application">
+
+
+                    <div>
+
+                        <h3>
+                            {{ application.job_title }}
+                        </h3>
+
+                        <p>
+                            🏢 {{ application.company }}
+                        </p>
+
+                        <p>
+                            👤 {{ application.name }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="status">
+
+                        {{ application.status }}
+
+                    </div>
+
+
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <p class="empty">
+
+            You haven't applied to any jobs yet.
+
+        </p>
+
+    {% endif %}
+
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+</div>
+
+
+<footer>
+
+    🚀 CareerNest &nbsp;•&nbsp;
+    Smart Jobs. Smarter Careers. 🤖
+
+</footer>
+
+
+</body>
+
+</html>

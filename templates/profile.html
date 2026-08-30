@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - CareerNest</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f3ff,
+                    #eef6ff,
+                    #fff2fb
+                );
+
+            color: #26345f;
+        }
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+            width: 100%;
+
+            padding: 18px 7%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+            color: white;
+
+            box-shadow:
+                0 5px 20px
+                rgba(50, 60, 150, 0.18);
+        }
+
+        .logo {
+            font-size: 25px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+
+            gap: 22px;
+
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.75;
+        }
+
+        .logout {
+            padding: 9px 16px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.18);
+        }
+
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .page {
+            width: 92%;
+
+            max-width: 1050px;
+
+            margin: 45px auto;
+
+        }
+
+
+        .hero {
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+        .hero-icon {
+            font-size: 55px;
+
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+
+            color: #293b73;
+
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: #71809d;
+
+            font-size: 16px;
+        }
+
+
+        /* ==============================
+           PROFILE CARD
+        ============================== */
+
+        .profile-card {
+            background: white;
+
+            border-radius: 28px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 18px 50px
+                rgba(55, 65, 120, 0.13);
+
+            margin-bottom: 25px;
+        }
+
+
+        .profile-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 22px;
+
+            margin-bottom: 35px;
+
+            padding-bottom: 25px;
+
+            border-bottom:
+                1px solid #edf0f7;
+        }
+
+
+        .avatar {
+            width: 85px;
+
+            height: 85px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 36px;
+
+            color: white;
+
+            font-weight: bold;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #ec4899
+                );
+
+            box-shadow:
+                0 10px 25px
+                rgba(112, 72, 232, 0.25);
+        }
+
+
+        .profile-header h2 {
+            color: #293b73;
+
+            font-size: 25px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .profile-header p {
+            color: #7a88a4;
+
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           FORM
+        ============================== */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 22px;
+        }
+
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+
+        label {
+            font-weight: 700;
+
+            color: #34456f;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+        }
+
+
+        input,
+        textarea {
+            width: 100%;
+
+            border:
+                1px solid #dce3f2;
+
+            border-radius: 13px;
+
+            padding: 14px 15px;
+
+            font-size: 15px;
+
+            font-family: inherit;
+
+            outline: none;
+
+            color: #26345f;
+
+            background: #fbfcff;
+
+            transition: 0.2s;
+        }
+
+
+        input:focus,
+        textarea:focus {
+            border-color: #6366f1;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(99, 102, 241, 0.10);
+        }
+
+
+        textarea {
+            min-height: 130px;
+
+            resize: vertical;
+        }
+
+
+        .email-box {
+            background: #f1f4ff;
+
+            cursor: not-allowed;
+        }
+
+
+        /* ==============================
+           BUTTON
+        ============================== */
+
+        .button-area {
+            margin-top: 30px;
+
+            display: flex;
+
+            justify-content: flex-end;
+        }
+
+
+        .save-button {
+            border: none;
+
+            padding: 14px 28px;
+
+            border-radius: 13px;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+            box-shadow:
+                0 8px 20px
+                rgba(65, 70, 180, 0.20);
+
+            transition: 0.2s;
+        }
+
+
+        .save-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(65, 70, 180, 0.27);
+        }
+
+
+        /* ==============================
+           FLASH MESSAGE
+        ============================== */
+
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+
+        .flash {
+            background: #ecfdf5;
+
+            color: #047857;
+
+            border:
+                1px solid #a7f3d0;
+
+            padding: 13px 16px;
+
+            border-radius: 12px;
+
+            margin-bottom: 10px;
+
+            font-weight: 600;
+        }
+
+
+        /* ==============================
+           QUICK LINKS
+        ============================== */
+
+        .quick-links {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .quick-card {
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 23px;
+
+            text-decoration: none;
+
+            color: #26345f;
+
+            box-shadow:
+                0 10px 30px
+                rgba(55, 65, 120, 0.10);
+
+            transition: 0.2s;
+
+            text-align: center;
+        }
+
+
+        .quick-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(55, 65, 120, 0.15);
+        }
+
+
+        .quick-icon {
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .quick-card h3 {
+            font-size: 16px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .quick-card p {
+            color: #7a88a4;
+
+            font-size: 13px;
+        }
+
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media(max-width: 750px) {
+
+            .navbar {
+                padding: 15px 5%;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .page {
+                width: 94%;
+
+                margin: 30px auto;
+            }
+
+            .profile-card {
+                padding: 25px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     NAVBAR
+========================================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🚀 CareerNest
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            🏠 Home
+        </a>
+
+        <a href="/dashboard">
+            📊 Dashboard
+        </a>
+
+        <a href="/saved_jobs">
+            ❤️ Saved Jobs
+        </a>
+
+        <a href="/applications">
+            📋 Applications
+        </a>
+
+        <a href="/logout" class="logout">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================
+     MAIN PAGE
+========================================= -->
+
+<main class="page">
+
+
+    <div class="hero">
+
+        <div class="hero-icon">
+            👤
+        </div>
+
+        <h1>
+            My Profile
+        </h1>
+
+        <p>
+            Manage your CareerNest profile and career information.
+        </p>
+
+    </div>
+
+
+
+    <!-- =====================================
+         FLASH MESSAGES
+    ====================================== -->
+
+    <div class="flash-container">
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="flash">
+                        ✅ {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+    </div>
+
+
+
+    <!-- =====================================
+         PROFILE FORM
+    ====================================== -->
+
+    <section class="profile-card">
+
+
+        <div class="profile-header">
+
+            <div class="avatar">
+
+                {% if profile.name %}
+
+                    {{ profile.name[0]|upper }}
+
+                {% else %}
+
+                    👤
+
+                {% endif %}
+
+            </div>
+
+
+            <div>
+
+                <h2>
+                    {{ profile.name or "CareerNest User" }}
+                </h2>
+
+                <p>
+                    ✨ Your professional profile
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <form
+            action="/profile"
+            method="POST"
+        >
+
+
+            <div class="form-grid">
+
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        👤 Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ profile.name or '' }}"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        📧 Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        value="{{ profile.email or '' }}"
+                        class="email-box"
+                        readonly
+                    >
+
+                </div>
+
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        📱 Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value="{{ profile.phone or '' }}"
+                        placeholder="Enter your phone number"
+                    >
+
+                </div>
+
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label for="location">
+                        📍 Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        value="{{ profile.location or '' }}"
+                        placeholder="e.g. Hyderabad, India"
+                    >
+
+                </div>
+
+
+
+                <!-- HEADLINE -->
+
+                <div class="form-group full">
+
+                    <label for="headline">
+                        💼 Professional Headline
+                    </label>
+
+                    <input
+                        type="text"
+                        id="headline"
+                        name="headline"
+                        value="{{ profile.headline or '' }}"
+                        placeholder="e.g. AI/ML Student | Python Developer"
+                    >
+
+                </div>
+
+
+
+                <!-- BIO -->
+
+                <div class="form-group full">
+
+                    <label for="bio">
+                        📝 About You
+                    </label>
+
+                    <textarea
+                        id="bio"
+                        name="bio"
+                        placeholder="Tell recruiters about yourself, your interests, projects and career goals..."
+                    >{{ profile.bio or '' }}</textarea>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="button-area">
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    💾 Save Profile
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </section>
+
+
+
+    <!-- =====================================
+         QUICK LINKS
+    ====================================== -->
+
+    <div class="quick-links">
+
+
+        <a
+            href="/career_assistant"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                🤖
+            </div>
+
+            <h3>
+                AI Career Assistant
+            </h3>
+
+            <p>
+                Get personalized career guidance
+            </p>
+
+        </a>
+
+
+
+        <a
+            href="/dashboard"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                📊
+            </div>
+
+            <h3>
+                Career Dashboard
+            </h3>
+
+            <p>
+                View your career progress
+            </p>
+
+        </a>
+
+
+
+        <a
+            href="/"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                🔎
+            </div>
+
+            <h3>
+                Find Jobs
+            </h3>
+
+            <p>
+                Explore matching opportunities
+            </p>
+
+        </a>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

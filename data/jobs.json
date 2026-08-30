@@ -1,0 +1,134 @@
+[
+    {
+        "title": "Python Developer",
+        "company": "Tech Solutions",
+        "location": "Hyderabad",
+        "skills": "Python Flask SQL",
+        "type": "Full Time",
+        "salary": "₹6-10 LPA",
+        "experience": "1-3 Years",
+        "mode": "Hybrid",
+        "featured": true
+    },
+    {
+        "title": "Machine Learning Intern",
+        "company": "AI Labs",
+        "location": "Bangalore",
+        "skills": "Python Machine Learning TensorFlow",
+        "type": "Internship",
+        "salary": "₹15,000/month",
+        "experience": "Fresher",
+        "mode": "On-site",
+        "featured": true
+    },
+    {
+        "title": "Frontend Developer",
+        "company": "WebWorks",
+        "location": "Hyderabad",
+        "skills": "HTML CSS JavaScript React",
+        "type": "Full Time",
+        "salary": "₹5-9 LPA",
+        "experience": "1-2 Years",
+        "mode": "Remote",
+        "featured": false
+    },
+    {
+        "title": "Data Analyst",
+        "company": "DataCorp",
+        "location": "Pune",
+        "skills": "Python SQL Excel Power BI",
+        "type": "Full Time",
+        "salary": "₹5-8 LPA",
+        "experience": "0-2 Years",
+        "mode": "Hybrid",
+        "featured": false
+    },
+    {
+        "title": "AI Engineer",
+        "company": "FutureAI",
+        "location": "Chennai",
+        "skills": "Python Deep Learning TensorFlow PyTorch",
+        "type": "Full Time",
+        "salary": "₹8-14 LPA",
+        "experience": "2-4 Years",
+        "mode": "Hybrid",
+        "featured": true
+    },
+    {
+        "title": "Computer Vision Intern",
+        "company": "VisionTech",
+        "location": "Bangalore",
+        "skills": "Python OpenCV YOLO Computer Vision",
+        "type": "Internship",
+        "salary": "₹20,000/month",
+        "experience": "Fresher",
+        "mode": "On-site",
+        "featured": true
+    },
+    {
+        "title": "Data Scientist",
+        "company": "Analytics Hub",
+        "location": "Mumbai",
+        "skills": "Python Machine Learning SQL Statistics",
+        "type": "Full Time",
+        "salary": "₹9-16 LPA",
+        "experience": "2-5 Years",
+        "mode": "Hybrid",
+        "featured": true
+    },
+    {
+        "title": "Java Developer",
+        "company": "CodeCraft",
+        "location": "Hyderabad",
+        "skills": "Java OOP Spring Boot SQL",
+        "type": "Full Time",
+        "salary": "₹6-11 LPA",
+        "experience": "1-3 Years",
+        "mode": "On-site",
+        "featured": false
+    },
+    {
+        "title": "Cloud Engineer",
+        "company": "CloudWorks",
+        "location": "Pune",
+        "skills": "AWS Azure Docker Linux",
+        "type": "Full Time",
+        "salary": "₹7-13 LPA",
+        "experience": "2-4 Years",
+        "mode": "Remote",
+        "featured": false
+    },
+    {
+        "title": "AI/ML Intern",
+        "company": "Innovate Labs",
+        "location": "Delhi",
+        "skills": "Python Machine Learning NLP Scikit-learn",
+        "type": "Internship",
+        "salary": "₹18,000/month",
+        "experience": "Fresher",
+        "mode": "Hybrid",
+        "featured": true
+    },
+    {
+        "title": "Backend Developer",
+        "company": "DevSphere",
+        "location": "Chennai",
+        "skills": "Python Django REST API PostgreSQL",
+        "type": "Full Time",
+        "salary": "₹6-12 LPA",
+        "experience": "1-3 Years",
+        "mode": "Remote",
+        "featured": false
+    },
+    {
+        "title": "NLP Engineer",
+        "company": "LanguageAI",
+        "location": "Bangalore",
+        "skills": "Python NLP Transformers BERT",
+        "type": "Full Time",
+        "salary": "₹9-15 LPA",
+        "experience": "2-4 Years",
+        "mode": "Hybrid",
+        "featured": true
+    }
+]

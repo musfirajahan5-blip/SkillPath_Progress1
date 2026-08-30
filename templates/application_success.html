@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Application Submitted - CareerNest</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(
+                135deg,
+                #eef2ff,
+                #e8f7ff
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #26345f;
+        }
+
+        .card {
+            background: white;
+            width: 500px;
+            max-width: 85%;
+            text-align: center;
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(40, 60, 100, 0.15);
+        }
+
+        .icon {
+            font-size: 70px;
+        }
+
+        h1 {
+            color: #2563eb;
+        }
+
+        .job {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            background: linear-gradient(
+                135deg,
+                #7048e8,
+                #2563eb
+            );
+            color: white;
+            padding: 14px 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            margin: 8px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div class="icon">
+            🎉
+        </div>
+
+        <h1>
+            Application Submitted!
+        </h1>
+
+        <p>
+            Great job, {{ applicant_name }}!
+        </p>
+
+        <p>
+            Your application has been successfully submitted.
+        </p>
+
+        <div class="job">
+
+            <strong>
+                {{ job.title }}
+            </strong>
+
+            <br>
+
+            🏢 {{ job.company }}
+
+        </div>
+
+        <a href="/">
+            🏠 Back to Jobs
+        </a>
+
+        <a href="/applications">
+            📋 My Applications
+        </a>
+
+    </div>
+
+</body>
+
+</html>

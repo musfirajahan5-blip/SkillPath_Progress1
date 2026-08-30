@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Career Assistant - CareerNest</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f3ff,
+                    #eef7ff,
+                    #fff5fc
+                );
+
+            min-height: 100vh;
+
+            color: #26345f;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #4f46e5,
+                    #2563eb
+                );
+
+            padding: 18px 7%;
+
+            color: white;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+            box-shadow:
+                0 6px 25px
+                rgba(60, 60, 130, 0.20);
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 15px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            background:
+                rgba(255,255,255,0.18);
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+
+            padding: 55px 8%;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #4f46e5,
+                    #2563eb,
+                    #0891b2
+                );
+
+            position: relative;
+
+            overflow: hidden;
+
+            border-radius:
+                0 0 35px 35px;
+        }
+
+        .hero::after {
+
+            content: "🤖";
+
+            position: absolute;
+
+            right: 8%;
+
+            top: 20px;
+
+            font-size: 130px;
+
+            opacity: 0.15;
+        }
+
+        .hero h1 {
+
+            font-size: 43px;
+
+            margin-bottom: 12px;
+
+        }
+
+        .hero p {
+
+            font-size: 18px;
+
+            max-width: 750px;
+
+            line-height: 1.6;
+
+            opacity: 0.95;
+
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+
+            width: 86%;
+
+            max-width: 1400px;
+
+            margin: 35px auto;
+
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+
+            background: white;
+
+            padding: 30px;
+
+            margin-bottom: 25px;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 12px 35px
+                rgba(40,60,110,0.10);
+
+        }
+
+        .card h2 {
+
+            color: #304b91;
+
+            margin-bottom: 20px;
+
+            font-size: 25px;
+
+        }
+
+
+        /* =========================
+           READINESS
+        ========================= */
+
+        .readiness {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 35px;
+
+            flex-wrap: wrap;
+
+        }
+
+        .score-circle {
+
+            width: 170px;
+
+            height: 170px;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    #7048e8
+                    {{ readiness_score }}%,
+                    #e9edff
+                    {{ readiness_score }}%
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            position: relative;
+
+            flex-shrink: 0;
+        }
+
+        .score-circle::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 130px;
+
+            height: 130px;
+
+            background: white;
+
+            border-radius: 50%;
+        }
+
+        .score-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            text-align: center;
+        }
+
+        .score-content strong {
+
+            display: block;
+
+            font-size: 34px;
+
+            color: #304b91;
+
+        }
+
+        .score-content span {
+
+            color: #71809d;
+
+            font-size: 13px;
+
+        }
+
+        .readiness-info h3 {
+
+            font-size: 28px;
+
+            color: #7048e8;
+
+            margin-bottom: 10px;
+
+        }
+
+        .readiness-info p {
+
+            line-height: 1.6;
+
+            color: #667391;
+
+        }
+
+
+        /* =========================
+           SKILLS
+        ========================= */
+
+        .skills {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+        }
+
+        .skill {
+
+            padding: 11px 17px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f5edff
+                );
+
+            color: #4059a6;
+
+            font-weight: bold;
+
+            border:
+                1px solid #dce4ff;
+
+        }
+
+
+        /* =========================
+           BEST CAREER
+        ========================= */
+
+        .best-career {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff0f8,
+                    #eef2ff,
+                    #eefaff
+                );
+
+            border-left:
+                7px solid #7048e8;
+
+            padding: 30px;
+
+            border-radius: 22px;
+
+        }
+
+        .best-label {
+
+            color: #7048e8;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+
+        }
+
+        .best-career h3 {
+
+            font-size: 31px;
+
+            color: #263f86;
+
+            margin-bottom: 12px;
+
+        }
+
+        .best-career p {
+
+            color: #687799;
+
+            line-height: 1.6;
+
+        }
+
+        .match-big {
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 12px 20px;
+
+            border-radius: 15px;
+
+            color: white;
+
+            font-weight: bold;
+
+            font-size: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+        }
+
+
+        /* =========================
+           CAREER GRID
+        ========================= */
+
+        .career-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(245px, 1fr)
+                );
+
+            gap: 20px;
+
+        }
+
+        .career-card {
+
+            padding: 23px;
+
+            border-radius: 20px;
+
+            border:
+                1px solid #e0e6f5;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #f8faff
+                );
+
+            transition: 0.25s;
+
+        }
+
+        .career-card:hover {
+
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 12px 28px
+                rgba(60,70,120,0.13);
+
+        }
+
+        .career-card h3 {
+
+            color: #304b91;
+
+            margin-bottom: 15px;
+
+            font-size: 20px;
+
+        }
+
+        .career-score {
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #0e9f6e;
+
+            margin-bottom: 5px;
+
+        }
+
+        .career-card p {
+
+            color: #71809d;
+
+            margin-top: 7px;
+
+        }
+
+
+        /* =========================
+           SKILL GAP
+        ========================= */
+
+        .gap-container {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+        }
+
+        .gap {
+
+            padding: 12px 18px;
+
+            border-radius: 22px;
+
+            background:
+                #fff0f0;
+
+            color: #d64545;
+
+            font-weight: bold;
+
+            border:
+                1px solid #ffd4d4;
+
+        }
+
+        .success-message {
+
+            padding: 20px;
+
+            background:
+                #ecfdf5;
+
+            border:
+                1px solid #bbf7d0;
+
+            color: #15803d;
+
+            border-radius: 16px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           ROADMAP
+        ========================= */
+
+        .roadmap {
+
+            display: grid;
+
+            gap: 16px;
+
+        }
+
+        .roadmap-step {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+            padding: 20px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8f9ff,
+                    #eef4ff
+                );
+
+            border:
+                1px solid #e1e7f5;
+
+        }
+
+        .step-number {
+
+            min-width: 48px;
+
+            height: 48px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+        }
+
+        .roadmap-step strong {
+
+            color: #304b91;
+
+            font-size: 18px;
+
+        }
+
+        .roadmap-step p {
+
+            margin-top: 7px;
+
+            color: #71809d;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .buttons {
+
+            display: flex;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+        }
+
+        .button {
+
+            display: inline-block;
+
+            padding: 14px 22px;
+
+            border-radius: 13px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+            box-shadow:
+                0 7px 18px
+                rgba(70,70,180,0.18);
+
+            transition: 0.2s;
+
+        }
+
+        .button:hover {
+
+            transform:
+                translateY(-3px);
+
+        }
+
+        .button.secondary {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0ea5e9,
+                    #0891b2
+                );
+
+        }
+
+        .button.green {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #10b981,
+                    #059669
+                );
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #71809d;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width:700px) {
+
+            .hero h1 {
+                font-size: 31px;
+            }
+
+            .hero {
+                padding: 40px 6%;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .score-circle {
+                width: 145px;
+                height: 145px;
+            }
+
+            .score-circle::before {
+                width: 110px;
+                height: 110px;
+            }
+
+            .navbar {
+                padding: 15px 5%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🚀 CareerNest
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">
+            🏠 Home
+        </a>
+
+        <a href="/dashboard">
+            📊 Dashboard
+        </a>
+
+        <a href="/saved_jobs">
+            ❤️ Saved Jobs
+        </a>
+
+        <a href="/applications">
+            📋 Applications
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+    <h1>
+        🤖 AI Career Assistant
+    </h1>
+
+    <p>
+        Discover the career paths that best match your
+        skills, identify what you should learn next,
+        and follow your personalized career roadmap.
+    </p>
+
+</section>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     CAREER READINESS
+====================================================== -->
+
+<div class="card">
+
+    <h2>
+        🎯 Your Career Readiness
+    </h2>
+
+    <div class="readiness">
+
+
+        <div class="score-circle">
+
+            <div class="score-content">
+
+                <strong>
+                    {{ readiness_score }}%
+                </strong>
+
+                <span>
+                    Ready
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="readiness-info">
+
+            <h3>
+                {{ readiness_level }}
+            </h3>
+
+            <p>
+                Your readiness score is based on the
+                technical skills detected from your resume.
+                Continue building practical projects and
+                strengthening your skill gaps to improve
+                your career readiness.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     DETECTED SKILLS
+====================================================== -->
+
+<div class="card">
+
+    <h2>
+        🧠 Skills Detected From Your Resume
+    </h2>
+
+
+    {% if detected_skills %}
+
+        <div class="skills">
+
+            {% for skill in detected_skills %}
+
+                <span class="skill">
+                    ✓ {{ skill }}
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>
+            No skills detected yet.
+            Please upload your resume first.
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =====================================================
+     BEST CAREER
+====================================================== -->
+
+<div class="card">
+
+    <h2>
+        🏆 Your Best Career Match
+    </h2>
+
+
+    <div class="best-career">
+
+        <div class="best-label">
+            ✨ AI Recommended Career
+        </div>
+
+        <h3>
+            {{ best_career.career }}
+        </h3>
+
+        <p>
+
+            Based on the skills detected in your resume,
+            this career currently has the strongest match
+            with your profile.
+
+        </p>
+
+        <div class="match-big">
+
+            {{ best_career.score }}% Match
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CAREER PATHS
+====================================================== -->
+
+<div class="card">
+
+    <h2>
+        🚀 Career Paths For You
+    </h2>
+
+    <div class="career-grid">
+
+
+        {% for career in career_results %}
+
+            <div class="career-card">
+
+                <h3>
+                    {{ career.career }}
+                </h3>
+
+                <div class="career-score">
+
+                    {{ career.score }}%
+
+                </div>
+
+                <p>
+                    🎯 Skill Match
+                </p>
+
+                <p>
+                    ✅
+                    {{ career.matched|length }}
+                    skills matched
+                </p>
+
+                <p>
+                    📚
+                    {{ career.missing|length }}
+                    skills to learn
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SKILL GAP
+====================================================== -->
+
+<div class="card">
+
+    <h2>
+        📈 Your Skill Gap
+    </h2>
+
+
+    {% if skill_gap %}
+
+        <p style="margin-bottom:18px; color:#71809d;">
+
+            These are the most important skills you can
+            focus on next for your recommended career:
+
+        </p>
+
+
+        <div class="gap-container">
+
+            {% for skill in skill_gap %}
+
+                <span class="gap">
+                    + {{ skill }}
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <div class="success-message">
+
+            🎉 Excellent! You already have the major
+            skills required for your recommended career.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =====================================================
+     LEARNING ROADMAP
+====================================================== -->
+
+<div class="card">
+
+    <h2>
+        🗺️ Personalized Learning Roadmap
+    </h2>
+
+
+    {% if roadmap %}
+
+        <div class="roadmap">
+
+
+            {% for item in roadmap %}
+
+                <div class="roadmap-step">
+
+
+                    <div class="step-number">
+
+                        {{ item.step }}
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            {{ item.skill }}
+                        </strong>
+
+                        <p>
+                            {{ item.description }}
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+        <div class="success-message">
+
+            🎉 Your current skill set is strong.
+            Focus on advanced projects, internships,
+            and interview preparation.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =====================================================
+     ACTIONS
+====================================================== -->
+
+<div class="card">
+
+    <h2>
+        ✨ Continue Your Career Journey
+    </h2>
+
+
+    <div class="buttons">
+
+        <a
+            href="/"
+            class="button"
+        >
+            🔎 Explore Jobs
+        </a>
+
+
+        <a
+            href="/dashboard"
+            class="button secondary"
+        >
+            📊 Career Dashboard
+        </a>
+
+
+        <a
+            href="/applications"
+            class="button green"
+        >
+            📋 My Applications
+        </a>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    🚀 <strong>CareerNest</strong>
+
+    <br>
+
+    Smart Jobs • Smarter Careers • AI Powered 🤖
+
+</footer>
+
+
+</body>
+
+</html>

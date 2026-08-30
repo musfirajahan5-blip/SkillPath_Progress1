@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ job.title }} - CareerNest</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7ff, #eef7ff);
+            color: #26345f;
+        }
+
+        .header {
+            background: linear-gradient(
+                135deg,
+                #7048e8,
+                #2563eb
+            );
+            color: white;
+            padding: 35px 8%;
+        }
+
+        .header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            width: 84%;
+            margin: 35px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(50, 70, 120, 0.12);
+            margin-bottom: 25px;
+        }
+
+        .company {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .info span {
+            background: #eef3ff;
+            padding: 12px 18px;
+            border-radius: 30px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill {
+            background: #e9f7ff;
+            color: #1769aa;
+            padding: 10px 15px;
+            border-radius: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button,
+        .btn {
+            border: none;
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .apply {
+            background: #2563eb;
+            color: white;
+        }
+
+        .save {
+            background: #ffe4ec;
+            color: #d6336c;
+        }
+
+        .back {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h1>{{ job.title }}</h1>
+
+        <div class="company">
+            🏢 {{ job.company }}
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <a class="back" href="/">
+            ← Back to Jobs
+        </a>
+
+
+        <div class="card">
+
+            <div class="info">
+
+                <span>📍 {{ job.location }}</span>
+
+                <span>💼 {{ job.type }}</span>
+
+                <span>🏠 {{ job.mode }}</span>
+
+                <span>💰 {{ job.salary }}</span>
+
+            </div>
+
+
+            <h2>About the Job</h2>
+
+            <p>
+                We are looking for a talented and motivated
+                professional to join {{ job.company }} as a
+                {{ job.title }}.
+            </p>
+
+            <p>
+                This opportunity allows you to work on real-world
+                projects, develop your technical skills and grow
+                your career.
+            </p>
+
+
+            <h2>Required Skills</h2>
+
+            <div class="skills">
+
+                {% for skill in job.skills.split() %}
+
+                    <span class="skill">
+                        {{ skill }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="buttons">
+
+                <a class="btn apply"
+                   href="{{ url_for('apply_page', job_id=job.id) }}">
+
+                    🚀 Apply Now
+
+                </a>
+
+
+                <form method="POST"
+                      action="{{ url_for('save_job', job_id=job.id) }}">
+
+                    <button class="save">
+
+                        {% if is_saved %}
+                            💔 Unsave Job
+                        {% else %}
+                            ❤️ Save Job
+                        {% endif %}
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account - CareerNest</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f3ff,
+                    #eef7ff,
+                    #fff2fb
+                );
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 18px 50px
+                rgba(55, 65, 120, 0.15);
+        }
+
+        .logo {
+            text-align: center;
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #4f46e5;
+
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #71809d;
+
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            text-align: center;
+
+            color: #26345f;
+
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #34456f;
+
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border:
+                1px solid #dce3f2;
+
+            border-radius: 12px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(99, 102, 241, 0.10);
+        }
+
+        button {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7048e8,
+                    #2563eb
+                );
+
+            box-shadow:
+                0 8px 20px
+                rgba(65, 70, 180, 0.20);
+
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .login {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #71809d;
+        }
+
+        .login a {
+            color: #4f46e5;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .login a:hover {
+            text-decoration: underline;
+        }
+
+        .home {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #71809d;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .home:hover {
+            color: #4f46e5;
+        }
+
+        .flash {
+            padding: 12px 15px;
+
+            margin-bottom: 20px;
+
+            border-radius: 12px;
+
+            background: #fff0f0;
+
+            color: #c24141;
+
+            font-size: 14px;
+        }
+
+        @media(max-width: 550px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 28px 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        🚀 CareerNest
+    </div>
+
+    <p class="subtitle">
+        Smart Jobs • Smarter Careers
+    </p>
+
+    <h1>
+        Create Your Account
+    </h1>
+
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="flash">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <form
+        action="/register"
+        method="POST"
+    >
+
+        <div class="form-group">
+
+            <label for="name">
+                👤 Full Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your full name"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="email">
+                📧 Email Address
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="password">
+                🔐 Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="At least 6 characters"
+                minlength="6"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="confirm_password">
+                🔐 Confirm Password
+            </label>
+
+            <input
+                type="password"
+                id="confirm_password"
+                name="confirm_password"
+                placeholder="Re-enter your password"
+                minlength="6"
+                required
+            >
+
+        </div>
+
+
+        <button type="submit">
+            ✨ Create Account
+        </button>
+
+    </form>
+
+
+    <div class="login">
+
+        Already have an account?
+
+        <a href="/login">
+            Login
+        </a>
+
+    </div>
+
+
+    <a
+        href="/"
+        class="home"
+    >
+        ← Back to CareerNest
+    </a>
+
+</div>
+
+
+</body>
+
+</html>
