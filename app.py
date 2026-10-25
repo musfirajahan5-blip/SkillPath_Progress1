@@ -1,7 +1,9 @@
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import json
 import os
 import re
+import hashlib
 from PyPDF2 import PdfReader
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -27,6 +29,26 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(DATA_FOLDER, exist_ok=True)
+
+def user_storage_key(email):
+    return hashlib.sha256(str(email or "").strip().lower().encode("utf-8")).hexdigest()
+
+def user_resume_folder(email):
+    folder = os.path.join(UPLOAD_FOLDER, user_storage_key(email))
+    os.makedirs(folder, exist_ok=True)
+    return folder
+
+def user_skills_file(email):
+    folder = os.path.join(DATA_FOLDER, "user_skills")
+    os.makedirs(folder, exist_ok=True)
+    return os.path.join(folder, user_storage_key(email) + ".json")
+
+def user_resume_file(email):
+    return os.path.join(user_resume_folder(email), "resume.pdf")
+
+def has_user_resume(email):
+    path = user_resume_file(email)
+    return os.path.isfile(path) and os.path.getsize(path) > 0
 
 
 # =========================================================
@@ -304,55 +326,26 @@ def extract_pdf_text(file_path):
 # GET CURRENT DETECTED SKILLS
 # =========================================================
 
-def get_detected_skills():
-    """
-    Gets the skills saved by the latest resume analysis.
-
-    If the JSON file is empty, this function also checks the
-    most recently modified PDF in the resumes folder. This
-    prevents the Career Assistant from showing 0% simply
-    because the skills JSON was empty/reset.
-    """
-
-    skills = load_json(SKILLS_FILE)
-
+def get_detected_skills(email=None):
+    """Load or analyze skills from the current user's resume only."""
+    if email is None:
+        user = current_user()
+        email = user.get("email") if user else None
+    if not email:
+        return []
+    skills_path = user_skills_file(email)
+    skills = load_json(skills_path)
     if isinstance(skills, list) and skills:
         return sorted(set(str(skill) for skill in skills))
-
-    # Fallback: inspect the newest uploaded PDF.
-    try:
-        pdf_files = []
-
-        for filename in os.listdir(UPLOAD_FOLDER):
-            if filename.lower().endswith(".pdf"):
-                path = os.path.join(UPLOAD_FOLDER, filename)
-
-                if os.path.isfile(path):
-                    pdf_files.append(path)
-
-        if pdf_files:
-            newest_pdf = max(
-                pdf_files,
-                key=os.path.getmtime
-            )
-
-            resume_text = extract_pdf_text(newest_pdf)
-
-            if resume_text:
-                skills = extract_skills(resume_text)
-
-                if skills:
-                    save_json(SKILLS_FILE, skills)
-
-                    return skills
-
-    except OSError:
-        pass
-
+    resume_path = user_resume_file(email)
+    if os.path.isfile(resume_path):
+        text = extract_pdf_text(resume_path)
+        skills = extract_skills(text) if text else []
+        save_json(skills_path, skills)
+        return skills
     return []
 
 
-# =========================================================
 # MODULE 10 — AUTHENTICATION & PROFILE HELPERS
 # =========================================================
 
@@ -450,8 +443,8 @@ def register():
 
         session["user_email"] = email
 
-        flash("Account created successfully! Welcome to CareerNest.")
-        return redirect(url_for("profile"))
+        flash("Account created successfully! Welcome to CareerNest. Please upload your resume.")
+        return redirect(url_for("upload_resume"))
 
     return render_template("register.html")
 
@@ -464,7 +457,7 @@ def register():
 def login():
 
     if current_user():
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("upload_resume") if not has_user_resume(current_user().get("email")) else url_for("dashboard"))
 
     if request.method == "POST":
 
@@ -487,7 +480,7 @@ def login():
         ):
             session["user_email"] = email
             flash("Welcome back to CareerNest! 👋")
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("upload_resume") if not has_user_resume(email) else url_for("dashboard"))
 
         flash("Invalid email or password.")
 
@@ -657,9 +650,13 @@ def search():
 @app.route("/dashboard")
 def dashboard():
 
+    user = current_user()
+    if not user:
+        flash("Please log in to view your dashboard.")
+        return redirect(url_for("login"))
     saved_ids = load_json(SAVED_FILE)
     applications = load_json(APPLICATION_FILE)
-    detected_skills = get_detected_skills()
+    detected_skills = get_detected_skills(user.get("email"))
 
     applied_count = 0
     interview_count = 0
@@ -1226,173 +1223,716 @@ def applications_page():
 # =========================================================
 # RESUME UPLOAD + AI ANALYSIS
 # =========================================================
-
-@app.route(
-    "/upload_resume",
-    methods=["POST"]
-)
+@app.route("/upload_resume", methods=["GET", "POST"])
 def upload_resume():
+    user = current_user()
+    if not user:
+        flash("Please log in to upload your resume.")
+        return redirect(url_for("login"))
 
-    resume = request.files.get(
-        "resume"
-    )
+    if request.method == "GET":
+        return render_template("resume_upload.html")
 
-    if resume is None:
-        return "No resume selected."
-
-    if resume.filename == "":
-        return "Please select a resume."
-
+    resume = request.files.get("resume")
+    if resume is None or not resume.filename:
+        flash("Please select a resume.")
+        return redirect(url_for("upload_resume"))
     if not resume.filename.lower().endswith(".pdf"):
-        return "Please upload a PDF resume."
+        flash("Please upload a PDF resume.")
+        return redirect(url_for("upload_resume"))
 
-    safe_filename = secure_filename(
-        resume.filename
-    )
-
+    safe_filename = secure_filename(resume.filename)
     if not safe_filename:
-        return "Invalid resume filename."
+        flash("Invalid resume filename.")
+        return redirect(url_for("upload_resume"))
 
-    file_path = os.path.join(
-        app.config["UPLOAD_FOLDER"],
-        safe_filename
-    )
-
+    # Save each user's resume in their own folder, preserving account separation.
+    resume_folder = user_resume_folder(user.get("email"))
+    file_path = os.path.join(resume_folder, safe_filename)
     resume.save(file_path)
 
-    # -----------------------------------------------------
-    # EXTRACT TEXT
-    # -----------------------------------------------------
-
     resume_text = extract_pdf_text(file_path)
-
     if not resume_text:
-        return (
-            "Could not extract text from this PDF. "
-            "Please upload a text-based PDF resume."
-        )
+        flash("Could not extract text from this PDF. Please upload a text-based PDF resume.")
+        return redirect(url_for("upload_resume"))
 
-    # -----------------------------------------------------
-    # DETECT SKILLS
-    # -----------------------------------------------------
+    detected_skills = extract_skills(resume_text)
+    save_json(user_skills_file(user.get("email")), detected_skills)
 
-    detected_skills = extract_skills(
-        resume_text
-    )
-
-    # Save skills so Dashboard and Career Assistant
-    # can use the same resume analysis.
-    save_json(
-        SKILLS_FILE,
-        detected_skills
-    )
-
-    resume_skill_set = set(
-        detected_skills
-    )
-
-    # -----------------------------------------------------
-    # CALCULATE JOB MATCHES
-    # -----------------------------------------------------
-
+    resume_skill_set = set(detected_skills)
     recommendations = []
-
     for job in jobs:
+        job_skill_set = set(extract_job_skills(job.get("skills", "")))
+        matched_skills = sorted(resume_skill_set.intersection(job_skill_set))
+        missing_skills = sorted(job_skill_set - resume_skill_set)
+        match_percentage = round(len(matched_skills) / len(job_skill_set) * 100) if job_skill_set else 0
+        recommendations.append({
+            "id": job.get("id"), "title": job.get("title", ""),
+            "company": job.get("company", ""), "location": job.get("location", ""),
+            "skills": job.get("skills", ""), "type": job.get("type", ""),
+            "salary": job.get("salary", ""), "mode": job.get("mode", ""),
+            "match": match_percentage, "matched_skills": matched_skills,
+            "missing_skills": missing_skills
+        })
+    recommendations.sort(key=lambda item: item["match"], reverse=True)
+    return render_template("resume_result.html", resume_text=resume_text,
+                           detected_skills=detected_skills, recommendations=recommendations)
 
-        job_skill_set = extract_job_skills(
-            job.get(
-                "skills",
-                ""
-            )
-        )
 
-        matched_skills = sorted(
-            resume_skill_set.intersection(
-                job_skill_set
-            )
-        )
+# MODULE 11 — SKILLPATH CAREER DEVELOPMENT
+# =========================================================
 
-        missing_skills = sorted(
-            job_skill_set
-            - resume_skill_set
-        )
+@app.route("/skillpath")
+def skillpath():
 
-        if job_skill_set:
+    # -----------------------------------------------------
+    # AUTHENTICATION
+    # -----------------------------------------------------
 
-            match_percentage = round(
+    user = current_user()
+
+    if not user:
+
+        flash("Please log in to access SkillPath.")
+
+        return redirect(url_for("login"))
+
+    # -----------------------------------------------------
+    # GET DETECTED SKILLS
+    # -----------------------------------------------------
+
+    detected_skills = get_detected_skills()
+
+    detected_skill_set = set(detected_skills)
+
+    # -----------------------------------------------------
+    # CAREER MATCH ENGINE
+    # -----------------------------------------------------
+
+    career_results = []
+
+    for career, required_skills in CAREER_PATHS.items():
+
+        matched_skills = []
+
+        missing_skills = []
+
+        for skill in required_skills:
+
+            if skill in detected_skill_set:
+
+                matched_skills.append(skill)
+
+            else:
+
+                missing_skills.append(skill)
+
+        # Calculate career match percentage.
+
+        if required_skills:
+
+            career_score = round(
                 (
                     len(matched_skills)
-                    / len(job_skill_set)
+                    / len(required_skills)
                 ) * 100
             )
 
         else:
 
-            match_percentage = 0
+            career_score = 0
 
-        recommendations.append({
+        # -------------------------------------------------
+        # CAREER EXPLANATION
+        # -------------------------------------------------
 
-            "id": job["id"],
+        if matched_skills:
 
-            "title": job.get(
-                "title",
-                ""
-            ),
+            explanation = (
+                f"You already have {len(matched_skills)} "
+                f"of the {len(required_skills)} listed "
+                f"skills for this career."
+            )
 
-            "company": job.get(
-                "company",
-                ""
-            ),
+        else:
 
-            "location": job.get(
-                "location",
-                ""
-            ),
+            explanation = (
+                "Start by developing the foundational "
+                "skills required for this career."
+            )
 
-            "skills": job.get(
-                "skills",
-                ""
-            ),
+        # -------------------------------------------------
+        # STORE CAREER RESULTS
+        # -------------------------------------------------
 
-            "type": job.get(
-                "type",
-                ""
-            ),
+        career_results.append({
 
-            "salary": job.get(
-                "salary",
-                ""
-            ),
+            "career": career,
 
-            "mode": job.get(
-                "mode",
-                ""
-            ),
+            "score": career_score,
 
-            "match": match_percentage,
+            "matched": matched_skills,
 
-            "matched_skills":
-                matched_skills,
+            "missing": missing_skills,
 
-            "missing_skills":
-                missing_skills
+            "required": required_skills,
+
+            "explanation": explanation
+
         })
 
-    # Highest match first.
-    recommendations.sort(
-        key=lambda job: job["match"],
+    # -----------------------------------------------------
+    # SORT CAREER MATCHES
+    # -----------------------------------------------------
+
+    career_results.sort(
+
+        key=lambda item: item["score"],
+
         reverse=True
+
     )
 
-    return render_template(
-        "resume_result.html",
+    # -----------------------------------------------------
+    # BEST CAREER
+    # -----------------------------------------------------
 
-        resume_text=resume_text,
+    if career_results:
+
+        best_career = career_results[0]
+
+    else:
+
+        best_career = {
+
+            "career": "Explore Career Options",
+
+            "score": 0,
+
+            "matched": [],
+
+            "missing": [],
+
+            "required": [],
+
+            "explanation": (
+                "Upload your resume to discover career options."
+            )
+
+        }
+
+    # -----------------------------------------------------
+    # SKILL DNA
+    # -----------------------------------------------------
+
+    skill_dna = {
+
+        "Programming": [
+
+            "Python",
+
+            "Java",
+
+            "C++",
+
+            "JavaScript"
+
+        ],
+
+        "AI and Machine Learning": [
+
+            "Machine Learning",
+
+            "Deep Learning",
+
+            "TensorFlow",
+
+            "PyTorch"
+
+        ],
+
+        "Data Analysis": [
+
+            "Pandas",
+
+            "NumPy",
+
+            "Statistics",
+
+            "SQL",
+
+            "Data Analysis"
+
+        ],
+
+        "Web Development": [
+
+            "HTML",
+
+            "CSS",
+
+            "JavaScript",
+
+            "React",
+
+            "Flask",
+
+            "Django"
+
+        ],
+
+        "Computer Vision": [
+
+            "Computer Vision",
+
+            "OpenCV",
+
+            "YOLO",
+
+            "CNN"
+
+        ],
+
+        "Development Tools": [
+
+            "Git",
+
+            "GitHub",
+
+            "Docker",
+
+            "Linux"
+
+        ]
+
+    }
+
+    skill_dna_results = []
+
+    for category, category_skills in skill_dna.items():
+
+        matched = [
+
+            skill
+
+            for skill in category_skills
+
+            if skill in detected_skill_set
+
+        ]
+
+        if category_skills:
+
+            category_score = round(
+
+                len(matched)
+                / len(category_skills)
+                * 100
+            )
+
+        else:
+
+            category_score = 0
+
+        skill_dna_results.append({
+
+            "category": category,
+
+            "score": category_score,
+
+            "matched": matched,
+
+            "total": len(category_skills)
+
+        })
+
+    # -----------------------------------------------------
+    # SKILL GAP
+    # -----------------------------------------------------
+
+    skill_gap = best_career["missing"]
+
+    # -----------------------------------------------------
+    # ROADMAP DESCRIPTIONS
+    # -----------------------------------------------------
+
+    roadmap_descriptions = {
+
+        "Python":
+            "Learn Python fundamentals, functions, "
+            "OOP and practical programming.",
+
+        "Machine Learning":
+            "Study supervised and unsupervised learning "
+            "and build a machine-learning project.",
+
+        "Deep Learning":
+            "Learn neural networks and build a "
+            "deep-learning application.",
+
+        "NumPy":
+            "Practice numerical computing, arrays "
+            "and mathematical operations.",
+
+        "Pandas":
+            "Learn data cleaning, filtering, grouping "
+            "and data analysis.",
+
+        "Scikit-learn":
+            "Practice preprocessing, model training "
+            "and model evaluation.",
+
+        "TensorFlow":
+            "Learn neural-network development "
+            "and train a simple model.",
+
+        "SQL":
+            "Practice queries, joins, grouping "
+            "and database operations.",
+
+        "Statistics":
+            "Strengthen probability, distributions "
+            "and statistical analysis.",
+
+        "Data Analysis":
+            "Learn how to clean, analyze "
+            "and interpret datasets.",
+
+        "Computer Vision":
+            "Learn image processing, object detection "
+            "and computer-vision workflows.",
+
+        "OpenCV":
+            "Practice image processing, contours "
+            "and transformations.",
+
+        "YOLO":
+            "Learn object detection and build "
+            "a real-time detection project.",
+
+        "CNN":
+            "Understand convolutional neural networks "
+            "and image classification.",
+
+        "NLP":
+            "Learn text preprocessing, embeddings "
+            "and NLP techniques.",
+
+        "Transformers":
+            "Learn attention mechanisms "
+            "and transformer-based models.",
+
+        "BERT":
+            "Understand BERT and practice "
+            "text classification.",
+
+        "HTML":
+            "Build responsive web pages "
+            "using semantic HTML.",
+
+        "CSS":
+            "Practice layouts, responsive design "
+            "and modern styling.",
+
+        "JavaScript":
+            "Practice DOM manipulation, events "
+            "and APIs.",
+
+        "React":
+            "Build component-based interfaces "
+            "and practice React state.",
+
+        "Node.js":
+            "Learn backend development "
+            "and server-side JavaScript.",
+
+        "Git":
+            "Practice version control, branches "
+            "and GitHub workflows.",
+
+        "Flask":
+            "Build Python web applications "
+            "using Flask.",
+
+        "Django":
+            "Learn Django models, views "
+            "and templates.",
+
+        "REST API":
+            "Learn to design, consume "
+            "and test REST APIs.",
+
+        "Excel":
+            "Practice formulas, charts "
+            "and data analysis.",
+
+        "Power BI":
+            "Create dashboards and learn "
+            "   data visualization."
+
+    }
+
+    # -----------------------------------------------------
+    # PERSONALIZED ROADMAP
+    # -----------------------------------------------------
+
+    roadmap = []
+
+    for index, skill in enumerate(
+
+        skill_gap,
+
+        start=1
+
+    ):
+
+        description = roadmap_descriptions.get(
+
+            skill,
+
+            f"Learn the fundamentals of {skill} "
+            "and build a practical project."
+
+        )
+
+        roadmap.append({
+
+            "step": index,
+
+            "skill": skill,
+
+            "description": description
+
+        })
+
+    # -----------------------------------------------------
+    # READINESS
+    # -----------------------------------------------------
+
+    # This is an assessment-free profile indicator.
+    # It is NOT an examination score.
+
+    if detected_skills:
+
+        readiness_score = min(
+
+            100,
+
+            round(
+
+                len(detected_skills)
+                / max(
+                    1,
+                    len(SKILL_ALIASES)
+                )
+                * 100
+
+            )
+
+        )
+
+    else:
+
+        readiness_score = 0
+
+    if readiness_score < 30:
+
+        readiness_level = "Beginner"
+
+    elif readiness_score < 60:
+
+        readiness_level = "Developing"
+
+    elif readiness_score < 80:
+
+        readiness_level = "Progressing"
+
+    else:
+
+        readiness_level = "Skill Profile Developed"
+
+    # -----------------------------------------------------
+    # RENDER SKILLPATH
+    # -----------------------------------------------------
+
+    return render_template(
+
+        "skillpath.html",
 
         detected_skills=detected_skills,
 
-        recommendations=recommendations
+        career_results=career_results,
+
+        best_career=best_career,
+
+        skill_gap=skill_gap,
+
+        roadmap=roadmap,
+
+        skill_dna_results=skill_dna_results,
+
+        readiness_score=readiness_score,
+
+        readiness_level=readiness_level
+
     )
+
+# =========================================================
+# MODULE 12 — SKILL ASSESSMENT
+# =========================================================
+
+ASSESSMENT_FILE = os.path.join(DATA_FOLDER, "assessment_results.json")
+ensure_json_file(ASSESSMENT_FILE)
+
+ASSESSMENT_QUESTIONS = {
+    "Python": [
+        {"question": "Which keyword defines a function?", "options": ["function", "def", "fun", "define"], "answer": "def"},
+        {"question": "Which data type stores key-value pairs?", "options": ["List", "Tuple", "Dictionary", "Set"], "answer": "Dictionary"},
+        {"question": "What is 2 ** 3?", "options": ["6", "8", "9", "5"], "answer": "8"},
+        {"question": "Which method adds an item to the end of a list?", "options": ["add()", "insert()", "append()", "push()"], "answer": "append()"},
+        {"question": "Which keyword begins exception handling?", "options": ["catch", "try", "error", "check"], "answer": "try"},
+        {"question": "Which symbol begins a Python comment?", "options": ["//", "#", "/*", "--"], "answer": "#"},
+        {"question": "Which function returns the length of a list?", "options": ["size()", "length()", "len()", "count()"], "answer": "len()"},
+        {"question": "Which data type is immutable?", "options": ["List", "Dictionary", "Set", "Tuple"], "answer": "Tuple"},
+        {"question": "Which loop iterates over a sequence?", "options": ["repeat", "foreach", "for", "iterate"], "answer": "for"},
+        {"question": "Which keyword creates a class?", "options": ["object", "class", "struct", "define"], "answer": "class"}
+    ],
+    "SQL": [
+        {"question": "Which SQL command retrieves data?", "options": ["GET", "SELECT", "FETCHALL", "OPEN"], "answer": "SELECT"},
+        {"question": "Which clause filters rows?", "options": ["ORDER BY", "GROUP BY", "WHERE", "JOIN"], "answer": "WHERE"},
+        {"question": "Which command adds a row?", "options": ["INSERT", "UPDATE", "ALTER", "CREATE"], "answer": "INSERT"},
+        {"question": "Which function counts rows?", "options": ["SUM()", "COUNT()", "TOTAL()", "NUMBER()"], "answer": "COUNT()"},
+        {"question": "Which clause sorts results?", "options": ["SORT", "ORDER BY", "GROUP BY", "ARRANGE"], "answer": "ORDER BY"},
+        {"question": "Which command modifies existing records?", "options": ["INSERT", "UPDATE", "CREATE", "SELECT"], "answer": "UPDATE"},
+        {"question": "Which keyword removes duplicate results?", "options": ["UNIQUE", "DISTINCT", "REMOVE", "FILTER"], "answer": "DISTINCT"},
+        {"question": "Which command deletes a table?", "options": ["REMOVE TABLE", "DELETE TABLE", "DROP TABLE", "CLEAR TABLE"], "answer": "DROP TABLE"},
+        {"question": "Which operator checks a range?", "options": ["BETWEEN", "RANGE", "INRANGE", "WITHIN"], "answer": "BETWEEN"},
+        {"question": "Which clause groups rows?", "options": ["ORDER BY", "GROUP BY", "WHERE", "JOIN"], "answer": "GROUP BY"}
+    ],
+    "Machine Learning": [
+        {"question": "Which algorithm is commonly used for classification?", "options": ["Linear Regression", "Logistic Regression", "K-Means", "PCA"], "answer": "Logistic Regression"},
+        {"question": "What is supervised learning?", "options": ["Learning without data", "Learning from labeled data", "Learning without models", "Clustering only"], "answer": "Learning from labeled data"},
+        {"question": "Which algorithm is used for clustering?", "options": ["K-Means", "Linear Regression", "Logistic Regression", "Decision Tree Regression"], "answer": "K-Means"},
+        {"question": "What is overfitting?", "options": ["Good training performance but poor unseen-data performance", "Poor performance on all data", "No parameters", "No training data"], "answer": "Good training performance but poor unseen-data performance"},
+        {"question": "Which Python library is commonly used for ML?", "options": ["Flask", "Scikit-learn", "BeautifulSoup", "Requests"], "answer": "Scikit-learn"},
+        {"question": "Which technique predicts continuous values?", "options": ["Classification", "Linear Regression", "K-Means", "Apriori"], "answer": "Linear Regression"},
+        {"question": "What is a feature?", "options": ["Model output", "Input variable", "Error message", "Training algorithm"], "answer": "Input variable"},
+        {"question": "What is a test dataset used for?", "options": ["Training", "Evaluating performance", "Removing features", "Increasing training data"], "answer": "Evaluating performance"},
+        {"question": "Which technique can reduce overfitting?", "options": ["Regularization", "Removing all training data", "Increasing complexity", "Ignoring validation"], "answer": "Regularization"},
+        {"question": "What does a confusion matrix evaluate?", "options": ["Database performance", "Classification performance", "Memory usage", "Dataset size"], "answer": "Classification performance"}
+    ]
+}
+
+ASSESSMENT_ROADMAP = {
+    "Python": ["Revise Python fundamentals and data structures", "Practice functions and object-oriented programming", "Solve coding exercises", "Build a Python mini-project"],
+    "SQL": ["Practice SELECT and WHERE queries", "Learn JOIN operations", "Practice GROUP BY and aggregate functions", "Build a database project"],
+    "Machine Learning": ["Learn data preprocessing", "Study supervised and unsupervised learning", "Practice model evaluation", "Build a machine-learning project"]
+}
+
+
+def assessment_level(percentage):
+    if percentage >= 80:
+        return "Advanced"
+    if percentage >= 60:
+        return "Intermediate"
+    if percentage >= 40:
+        return "Beginner"
+    return "Needs Improvement"
+
+
+def assessment_recommendation(level):
+    return {
+        "Advanced": "You demonstrated strong knowledge. Practice advanced problems and build projects.",
+        "Intermediate": "You understand the fundamentals. Practice intermediate concepts and practical exercises.",
+        "Beginner": "Revise fundamentals and solve beginner-level problems.",
+        "Needs Improvement": "Start with the fundamentals and practice regularly."
+    }.get(level, "Continue practicing this skill.")
+
+
+@app.route("/assessment")
+def assessment_home():
+    user = current_user()
+    if not user:
+        flash("Please log in to take a skill assessment.")
+        return redirect(url_for("login"))
+    results = load_json(ASSESSMENT_FILE)
+    user_results = [r for r in results if r.get("email") == user.get("email")]
+
+    # Only show assessments for skills found in this user's resume.
+    resume_skills = set(get_detected_skills(user.get("email")))
+    available_skills = [skill for skill in ASSESSMENT_QUESTIONS if skill in resume_skills]
+    return render_template(
+        "assessment.html",
+        skills=available_skills,
+        user_results=user_results,
+        resume_skills=sorted(resume_skills),
+    )
+
+
+@app.route("/assessment/start/<skill>")
+def assessment_start(skill):
+    if not current_user():
+        flash("Please log in to take an assessment.")
+        return redirect(url_for("login"))
+    user = current_user()
+    resume_skills = set(get_detected_skills(user.get("email")))
+    questions = ASSESSMENT_QUESTIONS.get(skill)
+    if questions is None or skill not in resume_skills:
+        flash("This assessment is available only for skills detected in your uploaded resume.")
+        return redirect(url_for("assessment_home"))
+    safe_questions = [{"question": q["question"], "options": q["options"]} for q in questions]
+    return render_template("assessment_exam.html", skill=skill, questions=safe_questions)
+
+
+@app.route("/assessment/submit/<skill>", methods=["POST"])
+def submit_assessment(skill):
+    user = current_user()
+    if not user:
+        flash("Please log in to submit your assessment.")
+        return redirect(url_for("login"))
+    resume_skills = set(get_detected_skills(user.get("email")))
+    questions = ASSESSMENT_QUESTIONS.get(skill)
+    if questions is None or skill not in resume_skills:
+        flash("This assessment is available only for skills detected in your uploaded resume.")
+        return redirect(url_for("assessment_home"))
+
+    correct = sum(
+        request.form.get(f"question_{index}", "") == question["answer"]
+        for index, question in enumerate(questions)
+    )
+    total = len(questions)
+    percentage = round((correct / total) * 100, 2) if total else 0
+    level = assessment_level(percentage)
+    result = {
+        "email": user.get("email"),
+        "skill": skill,
+        "total_questions": total,
+        "correct_answers": correct,
+        "percentage": percentage,
+        "level": level,
+        "recommendation": assessment_recommendation(level),
+        "date": datetime.now().strftime("%d-%m-%Y %I:%M %p"),
+        "roadmap": ASSESSMENT_ROADMAP.get(skill, [f"Practice {skill} fundamentals", f"Build a {skill} project"])
+    }
+    results = load_json(ASSESSMENT_FILE)
+    if not isinstance(results, list):
+        results = []
+    results.append(result)
+    save_json(ASSESSMENT_FILE, results)
+    return render_template("assessment_result.html", result=result)
+
+
+@app.route("/assessment/history")
+def assessment_history():
+    user = current_user()
+    if not user:
+        flash("Please log in to view assessment history.")
+        return redirect(url_for("login"))
+    results = load_json(ASSESSMENT_FILE)
+    user_results = [r for r in results if r.get("email") == user.get("email")]
+    user_results.reverse()
+    return render_template("assessment_history.html", results=user_results)
+
 
 
 # =========================================================

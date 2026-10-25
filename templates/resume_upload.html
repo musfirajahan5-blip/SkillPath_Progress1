@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Resume | CareerNest</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: #ffffff;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .logout-btn {
+            background: #2563eb;
+            color: white !important;
+            padding: 9px 18px;
+            border-radius: 7px;
+        }
+
+        /* MAIN CONTAINER */
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .welcome-section h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: #1e293b;
+        }
+
+        .welcome-section p {
+            color: #64748b;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* FLASH MESSAGES */
+
+        .flash-message {
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* UPLOAD CARD */
+
+        .upload-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+        }
+
+        .upload-icon {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 20px;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+        }
+
+        .upload-card h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .upload-description {
+            text-align: center;
+            color: #64748b;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        /* FILE UPLOAD */
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 35px 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .upload-area p {
+            margin-bottom: 15px;
+            color: #475569;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .choose-file-btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .choose-file-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .file-name {
+            margin-top: 18px;
+            font-size: 14px;
+            color: #2563eb;
+            word-break: break-word;
+        }
+
+        /* SUBMIT BUTTON */
+
+        .upload-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .upload-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .upload-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        /* INFORMATION */
+
+        .info-section {
+            margin-top: 30px;
+            padding: 22px;
+            background: #eff6ff;
+            border-radius: 10px;
+        }
+
+        .info-section h3 {
+            color: #1d4ed8;
+            margin-bottom: 12px;
+            font-size: 17px;
+        }
+
+        .info-section ul {
+            padding-left: 20px;
+        }
+
+        .info-section li {
+            color: #475569;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 5%;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            .welcome-section h1 {
+                font-size: 25px;
+            }
+
+            .upload-card {
+                padding: 25px 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <a href="{{ url_for('home') }}" class="logo">
+            CareerNest
+        </a>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+
+            {% if current_user %}
+
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+
+                <a href="{{ url_for('logout') }}" class="logout-btn">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('login') }}">
+                    Login
+                </a>
+
+                <a href="{{ url_for('register') }}">
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="container">
+
+        <!-- WELCOME -->
+
+        <section class="welcome-section">
+
+            <h1>
+                Upload Your Resume
+            </h1>
+
+            <p>
+                Welcome to CareerNest!
+                Upload your resume to discover your skills,
+                analyze your profile, and explore suitable
+                career opportunities.
+            </p>
+
+        </section>
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="flash-message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- UPLOAD CARD -->
+
+        <section class="upload-card">
+
+            <div class="upload-icon">
+                📄
+            </div>
+
+            <h2>
+                Resume Analysis
+            </h2>
+
+            <p class="upload-description">
+
+                Upload your latest resume in PDF format.
+
+                CareerNest will analyze your resume and
+                identify your technical and professional skills.
+
+            </p>
+
+
+            <!-- RESUME UPLOAD FORM -->
+
+            <form
+                action="{{ url_for('upload_resume') }}"
+                method="POST"
+                enctype="multipart/form-data"
+                id="resumeForm"
+            >
+
+                <!-- FILE UPLOAD AREA -->
+
+                <div class="upload-area">
+
+                    <p>
+                        Select your resume from your computer
+                    </p>
+
+                    <label
+                        for="resume"
+                        class="choose-file-btn"
+                    >
+                        Choose Resume
+                    </label>
+
+                    <input
+                        type="file"
+                        id="resume"
+                        name="resume"
+                        class="file-input"
+                        accept=".pdf,application/pdf"
+                        required
+                    >
+
+                    <div
+                        class="file-name"
+                        id="fileName"
+                    >
+                        No file selected
+                    </div>
+
+                </div>
+
+
+                <!-- SUBMIT BUTTON -->
+
+                <button
+                    type="submit"
+                    class="upload-btn"
+                    id="uploadButton"
+                >
+                    Upload & Analyze Resume
+                </button>
+
+            </form>
+
+
+            <!-- INFORMATION -->
+
+            <div class="info-section">
+
+                <h3>
+                    Before uploading
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Upload your resume in PDF format.
+                    </li>
+
+                    <li>
+                        Use your latest resume.
+                    </li>
+
+                    <li>
+                        Make sure your resume contains readable text.
+                    </li>
+
+                    <li>
+                        Your resume will be used to identify your skills.
+                    </li>
+
+                    <li>
+                        Upload your own resume to receive personalized results.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <p>
+            © 2026 CareerNest.
+            Your career journey starts here.
+        </p>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        const resumeInput = document.getElementById("resume");
+
+        const fileNameDisplay = document.getElementById("fileName");
+
+        const uploadButton = document.getElementById("uploadButton");
+
+        const resumeForm = document.getElementById("resumeForm");
+
+
+        // DISPLAY SELECTED FILE
+
+        resumeInput.addEventListener("change", function () {
+
+            const file = this.files[0];
+
+            if (file) {
+
+                fileNameDisplay.textContent = file.name;
+
+            } else {
+
+                fileNameDisplay.textContent = "No file selected";
+
+            }
+
+        });
+
+
+        // VALIDATE FILE BEFORE UPLOAD
+
+        resumeForm.addEventListener("submit", function (event) {
+
+            const file = resumeInput.files[0];
+
+            if (!file) {
+
+                event.preventDefault();
+
+                alert("Please select your resume.");
+
+                return;
+
+            }
+
+
+            // PDF VALIDATION
+
+            if (!file.name.toLowerCase().endsWith(".pdf")) {
+
+                event.preventDefault();
+
+                alert("Please upload your resume in PDF format.");
+
+                resumeInput.value = "";
+
+                fileNameDisplay.textContent = "No file selected";
+
+                return;
+
+            }
+
+
+            // SHOW LOADING MESSAGE
+
+            uploadButton.disabled = true;
+
+            uploadButton.textContent = "Uploading & Analyzing...";
+
+        });
+
+    </script>
+
+</body>
+
+</html>

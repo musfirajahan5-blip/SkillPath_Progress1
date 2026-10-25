@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerNest Assessment Results</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 25px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            padding: 30px;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-top: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .score {
+            font-size: 45px;
+            font-weight: bold;
+            color: #f97316;
+            text-align: center;
+        }
+
+        .level {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px 5px;
+            background: #f97316;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .button:hover {
+            background: #ea580c;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>Assessment Completed!</h1>
+
+        <p>
+            Congratulations on completing your skill assessment.
+        </p>
+
+        <h2>{{ result.skill }}</h2>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Your Score</h2>
+
+        <div class="score">
+            {{ result.percentage }}%
+        </div>
+
+        <p class="level">
+            {{ result.level }}
+        </p>
+
+        <hr>
+
+        <p>
+            <strong>Total Questions:</strong>
+            {{ result.total_questions }}
+        </p>
+
+        <p>
+            <strong>Correct Answers:</strong>
+            {{ result.correct_answers }}
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Recommendation</h2>
+
+        <p>
+            {{ result.recommendation }}
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Your Learning Roadmap</h2>
+
+        {% for step in result.roadmap %}
+
+            <p>
+                {{ loop.index }}. {{ step }}
+            </p>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="card">
+
+        <a href="{{ url_for('assessment_home') }}" class="button">
+            Back to Assessments
+        </a>
+
+        <a href="{{ url_for('assessment_history') }}" class="button">
+            Assessment History
+        </a>
+
+        <a href="{{ url_for('dashboard') }}" class="button">
+            Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

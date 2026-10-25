@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareerNest | SkillPath</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f7fb;
+
+            color: #1e293b;
+
+        }
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 30px;
+
+        }
+
+        .header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 30px;
+
+        }
+
+        .header h1 {
+
+            margin: 0;
+
+            color: #4338ca;
+
+        }
+
+        .header a {
+
+            text-decoration: none;
+
+            color: #4338ca;
+
+            font-weight: bold;
+
+        }
+
+        .welcome {
+
+            background: linear-gradient(
+                135deg,
+                #4f46e5,
+                #7c3aed
+            );
+
+            color: white;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            margin-bottom: 25px;
+
+        }
+
+        .welcome h2 {
+
+            margin-top: 0;
+
+            font-size: 28px;
+
+        }
+
+        .welcome p {
+
+            line-height: 1.6;
+
+        }
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(220px, 1fr)
+            );
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+
+        }
+
+        .card {
+
+            background: white;
+
+            padding: 24px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 4px 15px #00000008;
+
+            margin-bottom: 20px;
+
+        }
+
+        .stat {
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #4f46e5;
+
+            margin: 15px 0;
+
+        }
+
+        .muted {
+
+            color: #64748b;
+
+            line-height: 1.6;
+
+        }
+
+        .skill {
+
+            display: inline-block;
+
+            background: #eef2ff;
+
+            color: #4338ca;
+
+            padding: 8px 13px;
+
+            border-radius: 20px;
+
+            margin: 5px;
+
+            font-size: 13px;
+
+        }
+
+        .career {
+
+            border: 1px solid #e2e8f0;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            margin-top: 15px;
+
+        }
+
+        .career h3 {
+
+            margin-top: 0;
+
+        }
+
+        .progress {
+
+            background: #e2e8f0;
+
+            height: 10px;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            margin: 12px 0;
+
+        }
+
+        .progress-bar {
+
+            background: #4f46e5;
+
+            height: 100%;
+
+        }
+
+        .button {
+
+            display: inline-block;
+
+            background: #4f46e5;
+
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            border: none;
+
+            cursor: pointer;
+
+            margin-top: 10px;
+
+        }
+
+        .button:hover {
+
+            background: #3730a3;
+
+        }
+
+        .roadmap-item {
+
+            border-left: 4px solid #4f46e5;
+
+            padding: 15px 20px;
+
+            margin: 20px 0;
+
+            background: #f8fafc;
+
+            border-radius: 8px;
+
+        }
+
+        .roadmap-item h4 {
+
+            margin-top: 0;
+
+        }
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 40px;
+
+            color: #64748b;
+
+        }
+
+        @media(max-width: 600px) {
+
+            .container {
+
+                padding: 15px;
+
+            }
+
+            .welcome h2 {
+
+                font-size: 22px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>🚀 CareerNest SkillPath</h1>
+
+        <a href="{{ url_for('dashboard') }}">
+
+            ← Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h2>
+
+            Welcome to your Career Journey!
+
+        </h2>
+
+        <p>
+
+            Discover your current skills, explore suitable careers,
+            identify skill gaps and build your personalized roadmap.
+
+        </p>
+
+    </div>
+
+
+    <!-- OVERVIEW -->
+
+    <div class="grid">
+
+        <div class="card">
+
+            <h3>🧠 Detected Skills</h3>
+
+            <div class="stat">
+
+                {{ detected_skills|length }}
+
+            </div>
+
+            <p class="muted">
+
+                Skills extracted from your resume.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>🎯 Career Options</h3>
+
+            <div class="stat">
+
+                {{ career_results|length }}
+
+            </div>
+
+            <p class="muted">
+
+                Career paths available for comparison.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>📚 Skills to Improve</h3>
+
+            <div class="stat">
+
+                {{ skill_gap|length }}
+
+            </div>
+
+            <p class="muted">
+
+                Missing skills in your highest-overlap career.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>📈 Profile Indicator</h3>
+
+            <div class="stat">
+
+                {{ readiness_score }}%
+
+            </div>
+
+            <p class="muted">
+
+                {{ readiness_level }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- DETECTED SKILLS -->
+
+    <div class="card">
+
+        <h2>🧠 Your Skills</h2>
+
+        <p class="muted">
+
+            These skills were detected from your uploaded resume.
+
+        </p>
+
+        {% if detected_skills %}
+
+            {% for skill in detected_skills %}
+
+                <span class="skill">
+
+                    {{ skill }}
+
+                </span>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>
+
+                No skills detected.
+
+                Please upload your resume first.
+
+            </p>
+
+        {% endif %}
+
+        <br>
+
+        <a href="{{ url_for('career_assistant') }}"
+           class="button">
+
+            View Career Assistant
+
+        </a>
+
+    </div>
+
+
+    <!-- SKILL DNA -->
+
+    <div class="card">
+
+        <h2>🧬 Your Skill DNA</h2>
+
+        <p class="muted">
+
+            Skill categories based on your resume-detected skills.
+
+        </p>
+
+        {% for category in skill_dna_results %}
+
+            <div>
+
+                <h4>
+
+                    {{ category.category }}
+
+                </h4>
+
+                <p>
+
+                    {{ category.score }}%
+
+                    <span class="muted">
+
+                        ({{ category.matched|length }}
+                        of {{ category.total }} listed skills detected)
+
+                    </span>
+
+                </p>
+
+                <div class="progress">
+
+                    <div class="progress-bar"
+
+                         style="width: {{ category.score }}%">
+
+                    </div>
+
+                </div>
+
+                {% for skill in category.matched %}
+
+                    <span class="skill">
+
+                        {{ skill }}
+
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- CAREER MATCH -->
+
+    <div class="card">
+
+        <h2>🎯 Career Match Engine</h2>
+
+        <p class="muted">
+
+            Careers are ranked according to the overlap
+            between detected skills and defined career requirements.
+
+        </p>
+
+        {% for career in career_results %}
+
+            <div class="career">
+
+                <h3>
+
+                    {{ career.career }}
+
+                </h3>
+
+                <p>
+
+                    <strong>
+
+                        Skill Match: {{ career.score }}%
+
+                    </strong>
+
+                </p>
+
+                <div class="progress">
+
+                    <div class="progress-bar"
+
+                         style="width: {{ career.score }}%">
+
+                    </div>
+
+                </div>
+
+                <p class="muted">
+
+                    {{ career.explanation }}
+
+                </p>
+
+
+                <h4>✅ Matched Skills</h4>
+
+                {% if career.matched %}
+
+                    {% for skill in career.matched %}
+
+                        <span class="skill">
+
+                            {{ skill }}
+
+                        </span>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>
+
+                        No matching skills detected.
+
+                    </p>
+
+                {% endif %}
+
+
+                <h4>📚 Skills to Improve</h4>
+
+                {% if career.missing %}
+
+                    {% for skill in career.missing %}
+
+                        <span class="skill">
+
+                            {{ skill }}
+
+                        </span>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>
+
+                        All listed career skills
+                        were detected in your resume.
+
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- ROADMAP -->
+
+    <div class="card">
+
+        <h2>🗺️ Your Personalized Roadmap</h2>
+
+        <p class="muted">
+
+            Suggested learning activities based on the
+            missing skills in your highest-overlap career.
+
+        </p>
+
+        {% if roadmap %}
+
+            {% for item in roadmap %}
+
+                <div class="roadmap-item">
+
+                    <h4>
+
+                        Step {{ item.step }}:
+                        {{ item.skill }}
+
+                    </h4>
+
+                    <p>
+
+                        {{ item.description }}
+
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>
+
+                No missing skills were identified
+                for the highest-overlap career.
+
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- BEST CAREER -->
+
+    <div class="card">
+
+        <h2>⭐ Your Highest Career Match</h2>
+
+        <h3>
+
+            {{ best_career.career }}
+
+        </h3>
+
+        <div class="stat">
+
+            {{ best_career.score }}%
+
+        </div>
+
+        <p class="muted">
+
+            This career currently has the highest
+            skill overlap with your detected profile.
+
+        </p>
+
+        <a href="{{ url_for('career_assistant') }}"
+           class="button">
+
+            Explore Career Assistant
+
+        </a>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <p>
+
+            CareerNest — From Skills to Success 🚀
+
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

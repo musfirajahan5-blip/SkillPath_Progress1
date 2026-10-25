@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skill Assessment | CareerNest</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6fb;
+            color: #1e293b;
+            padding: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #243b6b;
+            margin-bottom: 15px;
+        }
+
+        .intro {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .panel {
+            background: #ffffff;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+        }
+
+        .panel h2 {
+            font-size: 23px;
+            margin-bottom: 22px;
+            color: #111827;
+        }
+
+        .assessment-card {
+            border: 1px solid #e5eaf3;
+            background: #fbfcff;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+        }
+
+        .assessment-card h3 {
+            font-size: 22px;
+            color: #243b6b;
+            margin-bottom: 12px;
+        }
+
+        .assessment-card p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #3730a3;
+        }
+
+        .button-history {
+            background: #059669;
+        }
+
+        .button-history:hover {
+            background: #047857;
+        }
+
+        .history-text {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 16px;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .assessment-card {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <h1>🎯 Skill Assessment</h1>
+
+        <p class="intro">
+            Test your knowledge of the skills you have studied.
+            CareerNest will evaluate your performance and recommend
+            a learning roadmap based on your assessment.
+        </p>
+
+    </header>
+
+
+    <section class="panel">
+
+        <h2>Available Assessments</h2>
+
+        {% for skill in skills %}
+
+            <article class="assessment-card">
+
+                <h3>{{ skill }}</h3>
+
+                <p>
+                    Test your knowledge and identify areas
+                    where you need improvement.
+                </p>
+
+                <a
+                    class="button"
+                    href="{{ url_for('assessment_start', skill=skill) }}"
+                >
+                    Start Assessment
+                </a>
+
+            </article>
+
+        {% else %}
+
+            <p>
+                No assessments are available currently.
+            </p>
+
+        {% endfor %}
+
+    </section>
+
+
+    <section class="panel">
+
+        <h2>📊 Your Assessment History</h2>
+
+        <p class="history-text">
+            View your previous assessment results,
+            track your performance, and identify
+            the skills you need to improve.
+        </p>
+
+        <a
+            class="button button-history"
+            href="{{ url_for('assessment_history') }}"
+        >
+            View History
+        </a>
+
+    </section>
+
+</div>
+
+</body>
+
+</html>

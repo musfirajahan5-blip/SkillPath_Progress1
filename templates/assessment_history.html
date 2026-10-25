@@ -1,0 +1,218 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerNest - Assessment History</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            color: #333;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            padding: 30px;
+            border-radius: 18px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin-top: 0;
+        }
+
+        .history-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .history-card h2 {
+            color: #ea580c;
+            margin-top: 0;
+        }
+
+        .score {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f97316;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #ffedd5;
+            color: #c2410c;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px 5px 0 0;
+            background: #f97316;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .button:hover {
+            background: #ea580c;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+        }
+
+        .empty h2 {
+            color: #ea580c;
+        }
+
+        .details {
+            margin-top: 15px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 15px auto;
+                padding: 12px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .history-card {
+                padding: 18px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>Assessment History</h1>
+
+        <p>
+            Review your completed skill assessments and track your progress.
+        </p>
+
+    </div>
+
+    {% if results %}
+
+        {% for result in results %}
+
+            <div class="history-card">
+
+                <h2>
+                    {{ result.skill }}
+                </h2>
+
+                <div class="score">
+                    {{ result.percentage }}%
+                </div>
+
+                <span class="badge">
+                    {{ result.level }}
+                </span>
+
+                <div class="details">
+
+                    <p>
+                        <strong>Total Questions:</strong>
+                        {{ result.total_questions }}
+                    </p>
+
+                    <p>
+                        <strong>Correct Answers:</strong>
+                        {{ result.correct_answers }}
+                    </p>
+
+                    {% if result.date %}
+                        <p>
+                            <strong>Date:</strong>
+                            {{ result.date }}
+                        </p>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+
+            <h2>No Assessment History Yet</h2>
+
+            <p>
+                Complete your first skill assessment to see your results here.
+            </p>
+
+            <a href="{{ url_for('assessment_home') }}"
+               class="button">
+
+                Start Assessment
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+    <div class="history-card">
+
+        <a href="{{ url_for('assessment_home') }}"
+           class="button">
+
+            Back to Assessments
+
+        </a>
+
+        <a href="{{ url_for('dashboard') }}"
+           class="button">
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
+```
